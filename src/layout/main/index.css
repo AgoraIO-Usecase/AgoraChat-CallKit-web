@@ -1,0 +1,25 @@
+.callkit-main-cantainer{
+    height: 100%;
+    position: absolute;
+    width: 100%;
+    top: 0;
+}
+
+.callkit-main-button{
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    font-size: 28px !important;
+}
+
+.callkit-main-button-light{
+    background:#FFFFFF;
+	color: #000000;
+    /* &:active{
+        background:#e6e3e3;
+    } */
+}
+
+.callkit-main-button-light:active{
+    background:#e6e3e3;
+}

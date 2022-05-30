@@ -1,0 +1,7 @@
+/config
+/public
+/scripts
+/build
+/assets
+package.json
+package-lock.json

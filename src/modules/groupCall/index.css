@@ -1,0 +1,180 @@
+.callkit-groupCall-container{
+    margin-top: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    display: flex;
+    flex-direction: row;
+
+    justify-content: center;
+    flex-flow: wrap;
+    padding: 0;
+    width: 100%;
+    overflow-y: auto;
+    height: calc(100% - 165px);
+
+    padding: 25px 0;
+    box-sizing: border-box;
+}
+
+.callkit-group-container-video{
+    height: calc(100% - 60px);
+    padding: 0
+}   
+
+.callkit-group-flex-start{
+    justify-content: flex-start;
+}
+
+.callkit-group-control{
+    position: absolute;
+    bottom: 28px;
+    /* // background-color: #0b4747; */
+    width: 204px;
+    left: calc(50% - 102px);
+    display: flex;
+    justify-content: space-between;
+}
+
+
+
+/* // ============ video ====== */
+
+.callkit-group-video-box-4{
+    width: 23.5%;
+    height: 47.41%;
+    /* padding-bottom: 23.5%; */
+    margin: 0.6%;
+    /* background-color: aqua; */
+    box-shadow: 0px 24px 36px rgb(0 0 0 / 12%), 8px 0px 24px rgb(0 0 0 / 8%);
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+}
+
+.callkit-group-video-2-self{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+.callkit-group-video-2-target{
+    position: absolute;
+    right: 12px;
+    top: 72px;
+    background: #000;
+    border-radius: 12px;
+    height: 120px;
+    width: 213px;
+    z-index: 9;
+    overflow: hidden;
+}
+
+.callkit-group-video-name{
+    color: #fff;
+    font-family: 'SF Pro Text';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 17px;
+    position: absolute;
+    left: 10px;
+    bottom: 7px;
+    width: calc(100% - 20px);
+    overflow: hidden;
+    text-align: left;
+    z-index: 9;
+}
+
+.callkit-group-video-box-3{
+    width: 48%;
+    height: 0;
+    padding-bottom: 48%;
+    margin: 0.6%;
+    background-color: aqua;
+    box-shadow: 0px 24px 36px rgba(0, 0, 0, 0.12), 8px 0px 24px rgba(0, 0, 0, 0.08);
+    border-radius: 8px;
+}
+
+.callkit-group-video-icon{
+    color: #fff;
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+    z-index: 9;
+}
+.callkit-group-audio-icon2{
+    color: #fff;
+    position: absolute;
+    right: 25px;
+    bottom: 5px;
+    z-index: 9;
+}
+.callkit-group-video-avatar-box{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+/* // ================== audio ============ */
+
+.callkit-group-audio-container{
+    /* // border: 1px solid snow; */
+    width: 88px;
+    height: 116px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    margin: 24px 36px;
+}
+
+.callkit-group-audio-avatar{
+    width: 80px !important;
+    height: 80px !important;
+    /* // box-sizing: border-box; */
+    position: relative;
+    top: 4px;
+}
+
+.callkit-group-audio-active{
+    border: 4px solid #14FF72;
+    top: 0 !important;
+}
+
+.callkit-group-audio-username{
+    font-family: 'SF Pro Text';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 18px;
+    text-align: center;
+    color: #FFFFFF;
+    margin-top: 8px;
+    position: absolute;
+    bottom: 0;
+}
+
+.callkit-group-audio-icon{
+    position: absolute;
+    top: 58px;
+    color: #000;
+    font-size: 18px;
+    background: #fff;
+    width: 24px;
+    height: 24px;
+    border-radius: 16px;
+    line-height: 24px;
+    border: 4px solid;
+    right: 7px;
+}
+
+.callkit-group-avatar{
+    position: absolute;
+    top: 132px;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

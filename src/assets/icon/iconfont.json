@@ -1,0 +1,156 @@
+{
+  "id": "3347555",
+  "name": "ACD_RTC",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "AgorachatDemo的RTC icon字体",
+  "glyphs": [
+    {
+      "icon_id": "29188526",
+      "name": "2_arrows_gathering",
+      "font_class": "a-2_arrows_gathering",
+      "unicode": "6b",
+      "unicode_decimal": 107
+    },
+    {
+      "icon_id": "29188527",
+      "name": "mic_slash",
+      "font_class": "mic_slash",
+      "unicode": "45",
+      "unicode_decimal": 69
+    },
+    {
+      "icon_id": "29188528",
+      "name": "check_mark_circle",
+      "font_class": "check_mark_circle",
+      "unicode": "49",
+      "unicode_decimal": 73
+    },
+    {
+      "icon_id": "29188529",
+      "name": "4_arrows_gathering",
+      "font_class": "a-4_arrows_gathering",
+      "unicode": "4a",
+      "unicode_decimal": 74
+    },
+    {
+      "icon_id": "29188530",
+      "name": "audio_reacall",
+      "font_class": "audio_reacll",
+      "unicode": "66",
+      "unicode_decimal": 102
+    },
+    {
+      "icon_id": "29188531",
+      "name": "4_arrows_separation",
+      "font_class": "a-4_arrows_separation",
+      "unicode": "6a",
+      "unicode_decimal": 106
+    },
+    {
+      "icon_id": "29188532",
+      "name": "circle",
+      "font_class": "circle",
+      "unicode": "69",
+      "unicode_decimal": 105
+    },
+    {
+      "icon_id": "29188533",
+      "name": "add_person",
+      "font_class": "add_person",
+      "unicode": "68",
+      "unicode_decimal": 104
+    },
+    {
+      "icon_id": "29188534",
+      "name": "menu",
+      "font_class": "menu",
+      "unicode": "6c",
+      "unicode_decimal": 108
+    },
+    {
+      "icon_id": "29188535",
+      "name": "phone_down",
+      "font_class": "phone_down",
+      "unicode": "41",
+      "unicode_decimal": 65
+    },
+    {
+      "icon_id": "29188536",
+      "name": "video_recall",
+      "font_class": "video_recall",
+      "unicode": "67",
+      "unicode_decimal": 103
+    },
+    {
+      "icon_id": "29188537",
+      "name": "no_add_person",
+      "font_class": "no_add_person",
+      "unicode": "48",
+      "unicode_decimal": 72
+    },
+    {
+      "icon_id": "29188538",
+      "name": "x",
+      "font_class": "x",
+      "unicode": "78",
+      "unicode_decimal": 120
+    },
+    {
+      "icon_id": "29188539",
+      "name": "video",
+      "font_class": "video",
+      "unicode": "63",
+      "unicode_decimal": 99
+    },
+    {
+      "icon_id": "29188540",
+      "name": "no_video",
+      "font_class": "no_video",
+      "unicode": "64",
+      "unicode_decimal": 100
+    },
+    {
+      "icon_id": "29188541",
+      "name": "video_slash",
+      "font_class": "video_slash",
+      "unicode": "43",
+      "unicode_decimal": 67
+    },
+    {
+      "icon_id": "29188542",
+      "name": "phone",
+      "font_class": "phone",
+      "unicode": "61",
+      "unicode_decimal": 97
+    },
+    {
+      "icon_id": "29188543",
+      "name": "search",
+      "font_class": "search",
+      "unicode": "6d",
+      "unicode_decimal": 109
+    },
+    {
+      "icon_id": "29188544",
+      "name": "x_circle",
+      "font_class": "x_circle",
+      "unicode": "58",
+      "unicode_decimal": 88
+    },
+    {
+      "icon_id": "29188545",
+      "name": "no_phone",
+      "font_class": "no_phone",
+      "unicode": "62",
+      "unicode_decimal": 98
+    },
+    {
+      "icon_id": "29188546",
+      "name": "mic",
+      "font_class": "mic",
+      "unicode": "65",
+      "unicode_decimal": 101
+    }
+  ]
+}

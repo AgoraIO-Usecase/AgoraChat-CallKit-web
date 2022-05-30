@@ -1,0 +1,46 @@
+{
+  "name": "callkit",
+  "version": "1.0.0",
+  "description": "callkit React component",
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "files": [
+    "css",
+    "es",
+    "lib"
+  ],
+  "scripts": {
+    "build": "nwb build-react-component --copy-files",
+    "clean": "nwb clean-module && nwb clean-demo",
+    "prepublishOnly": "npm run build",
+    "start": "nwb serve-react-demo",
+    "test": "nwb test-react",
+    "test:coverage": "nwb test-react --coverage",
+    "test:watch": "nwb test-react --server"
+  },
+  "peerDependencies": {
+    "react": ">16.x"
+  },
+  "devDependencies": {
+    "nwb": "0.25.x",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0"
+  },
+  "author": "",
+  "homepage": "",
+  "license": "MIT",
+  "repository": "",
+  "keywords": [
+    "react-component"
+  ],
+  "dependencies": {
+    "@reduxjs/toolkit": "^1.8.1",
+    "agora-chat": "^1.0.2",
+    "agora-rtc-sdk-ng": "^4.11.0",
+    "axios": "^0.27.2",
+    "classnames": "^2.3.1",
+    "easemob-websdk": "^4.0.4",
+    "react-draggable": "^4.4.5",
+    "react-redux": "^8.0.1"
+  }
+}

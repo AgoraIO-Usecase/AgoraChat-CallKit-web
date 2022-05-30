@@ -1,0 +1,60 @@
+.callkit-miniwin-container{
+    /* // position: absolute;
+    // width: 120px;
+    // height: 32px;
+    // left: 1072px;
+    // top: 402px;
+    // background: linear-gradient(180deg, rgba(0, 0, 0, 0.0001) 0%, #000000 100%); */
+
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(32px);
+    border-radius: 12px;
+
+    top: 210px;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+}
+
+.callkit-miniwin-avatar{
+    width: 64px !important;
+    height: 64px !important;
+    margin-top: 16px;
+}
+
+.callkit-miniwin-text{
+    font-family: 'SF Pro Text';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+    text-align: center;
+    color: #FFFFFF;
+    margin-top: 6px;
+    max-width: 100px;
+    overflow: hidden;
+}
+
+.callkit-miniwin-minivideo{
+    height: 213px;
+}
+
+.callkit-miniwin-video{
+    width: 120px;
+    height: 213px;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.0001) 27.68%, #000000 100%);
+}
+
+.callkit-miniwin-video-text{
+    width: 120px;
+    height: 35px;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.0001) 27.68%, #000000 100%);
+    color: #fff;
+    line-height: 35px;
+    text-align: center;
+}

@@ -1,0 +1,72 @@
+
+/* // ================= single audio ============== */
+.callkit-singleCall-container{
+    margin-top: 96px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.callkit-singleCall-username{
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 28px;
+    text-align: center;
+    color: #fff;
+    margin-top: 7px;
+    z-index: 9;
+}
+.callkit-singleCall-title{
+	font-family: 'Roboto';
+	font-style: normal;
+	font-weight: 400;
+	font-size: 16px;
+	line-height: 22px;
+	text-align: center;
+	color: #FFFFFF;
+	margin-top: 5px;
+    z-index: 9;
+}
+.callkit-singleCall-control{
+    position: absolute;
+    bottom: 28px;
+    /* // background-color: #0b4747; */
+    width: 204px;
+    left: calc(50% - 102px);
+    display: flex;
+    justify-content: space-between;
+}
+
+/* //============= video ==== */
+.callkit-single-videobox{
+    position: absolute;
+    width: 100%;
+    top: 0;
+    height: 100%;
+}
+.callkit-single-video-self{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    background: #000;
+}
+.callkit-single-video-target{
+    position: absolute;
+    right: 12px;
+    top: 72px;
+    background: #000;
+    border-radius: 12px;
+    height: 120px;
+    width: 213px;
+    z-index: 9;
+    overflow: hidden;
+}
+
+.callkit-singleCall-slash{
+    background-color: #fff;
+    color: #000;
+}
+
+

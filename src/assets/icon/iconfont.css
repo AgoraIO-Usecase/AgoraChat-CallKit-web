@@ -1,0 +1,100 @@
+@font-face {
+  font-family: "iconfont"; /* Project id 3347555 */
+  src: url('iconfont.woff2?t=1650537916370') format('woff2'),
+       url('iconfont.woff?t=1650537916370') format('woff'),
+       url('iconfont.ttf?t=1650537916370') format('truetype'),
+       url('iconfont.svg?t=1650537916370#iconfont') format('svg');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-a-2_arrows_gathering:before {
+  content: "\6b";
+}
+
+.icon-mic_slash:before {
+  content: "\45";
+}
+
+.icon-check_mark_circle:before {
+  content: "\49";
+}
+
+.icon-a-4_arrows_gathering:before {
+  content: "\4a";
+}
+
+.icon-audio_reacll:before {
+  content: "\66";
+}
+
+.icon-a-4_arrows_separation:before {
+  content: "\6a";
+}
+
+.icon-circle:before {
+  content: "\69";
+}
+
+.icon-add_person:before {
+  content: "\68";
+}
+
+.icon-menu:before {
+  content: "\6c";
+}
+
+.icon-phone_down:before {
+  content: "\41";
+}
+
+.icon-video_recall:before {
+  content: "\67";
+}
+
+.icon-no_add_person:before {
+  content: "\48";
+}
+
+.icon-x:before {
+  content: "\78";
+}
+
+.icon-video:before {
+  content: "\63";
+}
+
+.icon-no_video:before {
+  content: "\64";
+}
+
+.icon-video_slash:before {
+  content: "\43";
+}
+
+.icon-phone:before {
+  content: "\61";
+}
+
+.icon-search:before {
+  content: "\6d";
+}
+
+.icon-x_circle:before {
+  content: "\58";
+}
+
+.icon-no_phone:before {
+  content: "\62";
+}
+
+.icon-mic:before {
+  content: "\65";
+}
+
