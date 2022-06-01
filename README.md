@@ -98,6 +98,10 @@ CallKit.startCall(options);
 发起通话后的 UI 界面如下：
 ![image](./images/1v1-outgoing.png)
 
+### 多人通话中再邀请其他人
+
+在多人通话中想要再邀请其他人，可以点击右上角的 "添加人" 按钮，点击之后会触发 `onAddPerson` 回调，触发 onAddPerson 之后，需要用户要实现选择要邀请的人功能，在选择好要邀请的人之后再调用 `startCall` 发起呼叫，其他人就会收到邀请，可以选择加入或者拒绝。
+
 ### 收到邀请
 
 主叫方发起邀请后，如果被叫方在线且当前不在通话中，会触发 onInvite 回调，在回调中可以处理是否弹出接听界面，弹出界面后可以选择接听或者挂断。
@@ -117,6 +121,10 @@ CallKit.answerCall(false);
 ```
 
 ![image](./images/1v1-incoming.png)
+
+### 结束通话
+
+点击页面中的 "挂断" 按钮可以结束通话，一对一通话时一方挂断另一方自动挂断，多人通话时，一方挂断整个通话不会结束。自己挂断会在 `onStateChange` 回调里收到 info.type 为 'hangup'，其他人挂断会在 `onStateChange` 回调里收到 info.type 为 'user-left'。
 
 ### 添加监听
 
@@ -167,7 +175,7 @@ function Call() {
 | init | 初始化 CallKit |
 | startCall | 发起通话 |
 | answerCall | 接听通话 |
-| setUserIdMap | 设置声网 ID 映射, 参数形式 [{uid: 'custom name'}] |
+| setUserIdMap | 设置声网 ID 映射, 参数形式 {[uid1]: 'custom name', [uid2]: 'custom name'} |
 
 回调：
 | 方法 | 说明 |
