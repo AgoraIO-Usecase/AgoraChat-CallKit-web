@@ -96,6 +96,7 @@ export const counterSlice = createSlice({
 							item.mediaType = action.payload.mediaType
 							item.audio = action.payload.audio || false
 							item.video = action.payload.video || false
+							item.isSelf = action.payload.isSelf
 							state.joinedMembers = joinedMembers
 						}
 						exist = true

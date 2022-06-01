@@ -132,28 +132,24 @@ class Manager {
 		this.rtc.localAudioTrack = localAudioTrack
 		let config = [localAudioTrack]
 
+		let displayedName = username
+		if (state.uid2userId[uid]) {
+			displayedName = state.uid2userId[uid]
+		} else if (state.uid2userId[username]) {
+			displayedName = state.uid2userId[username]
+		}
+
 		if (confr.type === 0 || confr.type === 3) {
 			await client.publish(config);
-			if (confr.type === 3) {
-				dispatch(updateJoinedMembers({ videoElm: null, name: username, type: 'audio', value: uid, action: 'add', audio: true, video: false }))
-			}
+			dispatch(updateJoinedMembers({ videoElm: null, name: displayedName, type: 'audio', value: uid, action: 'add', audio: true, video: false, isSelf: true }))
 		} else {
 			const localVideoTrack = await AgoraRTC.createCameraVideoTrack();
 			config.push(localVideoTrack)
 			this.rtc.localVideoTrack = localVideoTrack;
 			await client.publish(config);
-			if (confr.type === 2) {
-				let videoElm = 'video' + uid;
-
-				let joinedMembersCp = [...state.joinedMembers]
-				joinedMembersCp.push({ videoElm: videoElm, name: username, type: 'video', value: uid, actionType: 'add' })
-
-				dispatch(updateJoinedMembers({ videoElm: videoElm, name: username, type: 'video', value: uid, action: 'add', audio: true, video: true }))
-				localVideoTrack.play(videoElm);
-
-			} else {
-				localVideoTrack.play("local-player");
-			}
+			let videoElm = confr.type === 2 ? 'video' + uid : 'local-player'
+			dispatch(updateJoinedMembers({ videoElm: videoElm, name: displayedName, type: 'video', value: uid, action: 'add', audio: true, video: true, isSelf: true }))
+			localVideoTrack.play(videoElm);
 		}
 		this.startTime()
 	}

@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import React, { useContext } from 'react';
 import { WebIM, callManager } from '../callManager'
 import { useSelector, useDispatch } from 'react-redux';
-import { setCallStatus, CALLSTATUS } from '../../redux/reducer'
+import { setCallStatus, CALLSTATUS, updateJoinedMembers } from '../../redux/reducer'
 import { answerCall } from '../message'
 import { CallkitContext } from '../../index'
 import store from '../../redux';
@@ -49,7 +49,7 @@ function SingleCall(props) {
 	const state = useSelector(state => state)
 	const dispatch = useDispatch();
 	const { contactAvatar } = CallkitProps
-
+	const uid2userids = useSelector(state => state.uid2userId)
 	const { client } = callManager
 	callManager.setCallKitProps(CallkitProps)
 
@@ -60,17 +60,39 @@ function SingleCall(props) {
 				user,
 				mediaType
 			})
+
+			if (uid2userids[user.uid]) {
+				user.uid2userid = uid2userids[user.uid] // user.uid2userid - im user
+			} else {
+				user.uid2userid = user.uid
+			}
+
 			// subscribe user
 			await client.subscribe(user, mediaType);
 
+			let joined = {}
+			joined = {
+				name: user.uid2userid,
+				videoElm: 'remote-player',
+				type: mediaType,
+				value: user.uid,
+				action: 'add',
+				audio: true,
+				video: true
+			}
+
 			if (mediaType === "video") {
 				const remoteVideoTrack = user.videoTrack;
+				joined.video = true
+				dispatch(updateJoinedMembers(joined))
 				remoteVideoTrack.play('remote-player');
 				WebIM.rtc.remoteVideoTrack = remoteVideoTrack;
 			}
 
 			if (mediaType === "audio") {
 				const remoteAudioTrack = user.audioTrack;
+				joined.audio = true
+				dispatch(updateJoinedMembers(joined))
 				WebIM.rtc.other = user
 				remoteAudioTrack.play();
 			}
@@ -143,7 +165,7 @@ function SingleCall(props) {
 	}
 
 	const swichMic = () => {
-		if (state.callStatus < CALLSTATUS.answerCall) {
+		if (state.callStatus < CALLSTATUS.confirmRing || state.callStatus === CALLSTATUS.receivedConfirmRing) {
 			return console.warn('not joined the call yet')
 		}
 		setMute((isMute) => !isMute)
@@ -151,7 +173,7 @@ function SingleCall(props) {
 	}
 
 	const swichCamera = () => {
-		if (state.callStatus < 3) {
+		if (state.callStatus < CALLSTATUS.confirmRing || state.callStatus === CALLSTATUS.receivedConfirmRing) {
 			return console.warn('not joined the call yet')
 		}
 		setCamera((isCloseCamera) => !isCloseCamera)
@@ -241,7 +263,12 @@ function SingleCall(props) {
 
 	let { callerIMName, calleeIMName } = state.confr
 	let myName = WebIM.conn.context.jid.name;
-	let targetUser = callerIMName == myName ? calleeIMName : callerIMName
+
+	let targetUserId = callerIMName == myName ? calleeIMName : callerIMName;
+	let targetUserName = targetUserId
+	if (uid2userids[targetUserId]) {
+		targetUserName = uid2userids[targetUserId]
+	}
 	if (state.callStatus > CALLSTATUS.answerCall && state.confr.type === 0) {
 		callType = state.callDuration
 	}
@@ -249,7 +276,7 @@ function SingleCall(props) {
 		<div style={style} className="callkit-singleCall-container">
 			{showAvatar && <>
 				<Avatar src={contactAvatar || head} alt="name" style={{ zIndex: 9 }}></Avatar>
-				<div className="callkit-singleCall-username">{targetUser}</div>
+				<div className="callkit-singleCall-username">{targetUserName}</div>
 				<div className="callkit-singleCall-title">{callType}</div>
 			</>}
 			{

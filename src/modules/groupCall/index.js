@@ -188,7 +188,6 @@ function GroupCall(props) {
 			}
 			videoElm = 'video' + user.uid;
 
-
 			// subscribe video stream。
 			if (mediaType === "video") {
 				const remoteVideoTrack = user.videoTrack;
@@ -279,7 +278,8 @@ function GroupCall(props) {
 				value: item.value,
 				videoElm: item.videoElm,
 				video: item.video,
-				audio: item.audio
+				audio: item.audio,
+				isSelf: item.isSelf
 			}
 			if (newJoinedItem.value in uid2userids) {
 				newJoinedItem.name = uid2userids[newJoinedItem.value]
@@ -338,7 +338,7 @@ function GroupCall(props) {
 	}
 
 	const swichMic = () => {
-		if (state.callStatus < CALLSTATUS.confirmRing) {
+		if (state.callStatus < CALLSTATUS.confirmRing || state.callStatus === CALLSTATUS.receivedConfirmRing) {
 			return console.warn('not joined the call yet')
 		}
 		setMute((isMute) => !isMute)
@@ -346,7 +346,7 @@ function GroupCall(props) {
 	}
 
 	const swichCamera = () => {
-		if (state.callStatus < CALLSTATUS.confirmRing) {
+		if (state.callStatus < CALLSTATUS.confirmRing || state.callStatus === CALLSTATUS.receivedConfirmRing) {
 			return console.warn('not joined the call yet')
 		}
 		setCamera((isCloseCamera) => !isCloseCamera)
@@ -382,13 +382,13 @@ function GroupCall(props) {
 				state.confr.type === 2 && state.joinedMembers.map((item) => {
 					let className = ''
 					if (state.joinedMembers.length <= 2) {
-						if (item.name === username) {
+						if (item.isSelf) {
 							className = 'callkit-group-video-2-self'
 						} else {
 							className = 'callkit-group-video-2-target'
 						}
 					}
-					return <VideoCall key={item.name} text={item.name} id={'video' + item.value} className={className} data={item}></VideoCall>
+					return <VideoCall key={item.value} text={item.name} id={'video' + item.value} className={className} data={item}></VideoCall>
 				})
 			}
 
