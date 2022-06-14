@@ -152,15 +152,15 @@ function SingleCall(props) {
 	const refuse = () => {
 		answerCall('refuse')
 		if (state.callStatus < CALLSTATUS.confirmCallee) {
-			callManager.hangup()
+			callManager.hangup('refuse')
 			dispatch(setCallStatus(CALLSTATUS.idle))
 		}
-		CallkitProps.onStateChange && CallkitProps.onStateChange({
-			type: "refuse",
-			callInfo: state.confr,
-			groupId: state.groupId,
-			groupName: state.groupName
-		})
+		// CallkitProps.onStateChange && CallkitProps.onStateChange({
+		// 	type: "refuse",
+		// 	callInfo: state.confr,
+		// 	groupId: state.groupId,
+		// 	groupName: state.groupName
+		// })
 		clearTimeout(WebIM.rtc.timer)
 	}
 
