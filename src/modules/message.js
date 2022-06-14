@@ -325,7 +325,11 @@ export const addListener = () => {
                         deviceId = msgInfo.calleeDevId
                         if (msgInfo.callerDevId != WebIM.conn.context.jid.clientResource) {
                             if (msg.from == WebIM.conn.context.jid.name) {
-                                callManager.hangup('processed on other devices')
+                                if (msgInfo.result === 'accept') {
+                                    callManager.hangup('accepted on other devices')
+                                } else if (msgInfo.result === 'refuse') {
+                                    callManager.hangup('refused on other devices')
+                                }
                                 dispatch(setCallStatus(CALLSTATUS.idle))
                                 WebIM.rtc.timer && clearTimeout(WebIM.rtc.timer)
                                 return console.warn('processed on other devices')
