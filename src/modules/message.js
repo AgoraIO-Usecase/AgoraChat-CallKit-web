@@ -245,7 +245,6 @@ export const addListener = () => {
     const { getState, dispatch } = store
     WebIM.conn.addEventHandler('message', {
         onTextMessage: (message) => {
-            if (message.chatType !== 'singleChat') return;
             const state = getState()
             const { conf, callStatus } = state
             let { from, to } = message
@@ -253,12 +252,33 @@ export const addListener = () => {
                 if (message.from == WebIM.conn.context.jid.name) {
                     return // msg from other device
                 }
-                if (callStatus > CALLSTATUS.idle) { // busy
-                    answerCall('busy', { callId: message.ext.callId, callerDevId: message.ext.callerDevId, to: from })
+                if (message.chatType == 'singleChat') {
+                    if (callStatus > CALLSTATUS.idle) { // busy
+                        answerCall('busy', { callId: message.ext.callId, callerDevId: message.ext.callerDevId, to: from })
+                    } else {
+                        message.ext.calleeIMName = message.to;
+                        message.ext.callerIMName = message.from;
+                        dispatch(updateConfr(message))
+                        dispatch(setCallStatus(CALLSTATUS.alerting))
+                    }
                 } else {
-                    message.ext.calleeIMName = message.to;
-                    message.ext.callerIMName = message.from;
-                    dispatch(updateConfr(message))
+                    const msgInfo = message.ext
+                    if (callStatus > CALLSTATUS.idle) {
+                        if (msgInfo.callId == conf.callId) {
+                            dispatch(setCallStatus(CALLSTATUS.alerting))
+                        } else {
+                            answerCall('busy', { callId: msgInfo.callId, callerDevId: msgInfo.callerDevId, to: from })
+                        }
+                    }
+
+                    msgInfo.calleeIMName = WebIM.conn.context.jid.name;
+                    msgInfo.callerIMName = from;
+                    dispatch(updateConfr({
+                        from,
+                        to,
+                        ext: msgInfo
+                    }))
+
                     dispatch(setCallStatus(CALLSTATUS.alerting))
                 }
             }

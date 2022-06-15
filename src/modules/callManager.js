@@ -103,7 +103,8 @@ class Manager {
 				groupId: groupId,
 				groupName: groupName
 			}
-			sendCMDMsg(chatType, to, message, confInfo)
+			// sendCMDMsg(chatType, to, message, confInfo)
+			sendTextMsg(chatType, to, message, confInfo)
 		} else {
 			sendTextMsg(chatType, to, message, confInfo)
 		}
