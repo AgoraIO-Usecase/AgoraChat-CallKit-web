@@ -57,6 +57,7 @@ Callkit.startCall = function (options) {
     }
     options.to.forEach((userId) => {
       params.to = userId
+      params.chatType = 'singleChat'
       callManager.startCall(params)
     })
 

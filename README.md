@@ -1,14 +1,14 @@
 # 实现一对一音视频通话
 
-AgoraChatCallKit 是一套基于声网音视频服务，使用 Agora Chat 作为信令通道的开源音视频 UI 库。该库提供一对一语音通话、视频通话，以及多人会议的功能接口。同时，通过信令的交互确认，还可以保证用户在多个设备登录时，能同步处理呼叫振铃，即当用户在一台设备上处理振铃后，其他设备自动停止振铃。
+chat-callkit 是一套基于声网音视频服务，使用 Agora Chat 作为信令通道的开源音视频 UI 库。该库提供一对一语音通话、视频通话，以及多人会议的功能接口。同时，通过信令的交互确认，还可以保证用户在多个设备登录时，能同步处理呼叫振铃，即当用户在一台设备上处理振铃后，其他设备自动停止振铃。
 
-本文展示如何使用 AgorachatCallKit 快速构建实时音视频场景。
+本文展示如何使用 chat-callkit 快速构建实时音视频场景。
 
 ## 实现原理
 
-使用 AgoraChatCallKit 实现音视频通话的基本流程如下：
+使用 chat-callkit 实现音视频通话的基本流程如下：
 
-1. 用户调用 AgoraChatCallKit 的初始化接口。
+1. 用户调用 chat-callkit 的初始化接口。
 2. 主叫方调用发起通话邀请接口，自动进入通话页面。
 3. 被叫方调用接听接口弹出通话请求页面，在 UI 界面选择接听，进入通话。
 4. 结束通话时，点击 UI 界面的挂断按钮。
@@ -23,22 +23,22 @@ AgoraChatCallKit 是一套基于声网音视频服务，使用 Agora Chat 作为
 
 ## 项目设置
 
-参考如下步骤，将 AgoraChatCallKit 集成到你的项目中，并完成相关配置。
+参考如下步骤，将 chat-callkit 集成到你的项目中，并完成相关配置。
 
-### 引入 AgoraChatCallKit
+### 引入 chat-callkit
 
-参考下文步骤使用 npm 将 AgoraChatCallKit 导入到项目中。
+参考下文步骤使用 npm 将 chat-callkit 导入到项目中。
 
-1. 下载 AgoraChatCallKit。
+1. 下载 chat-callkit。
 
 ```bash
-npm install AgoraChatCallKit
+npm install chat-callkit
 ```
 
-2. 引入 AgoraChatCallKit。
+2. 引入 chat-callkit。
 
 ```javascript
-import Callkit from 'calAgoraChatCallKitlkit'; // 包名还没确定
+import Callkit from 'chat-callkit'; // 包名还没确定
 ```
 
 ## 实现音视频通话
@@ -192,4 +192,4 @@ function Call() {
 
 ### 示例项目
 
-`AgoraChatCallKit` 库在 Github 上进行了保存，请参见[demo](./demo/README.md) ）。
+`chat-callkit` 库在 Github 上进行了保存，请参见[demo](./demo/README.md) ）。
