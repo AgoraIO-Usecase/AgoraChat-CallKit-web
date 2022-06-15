@@ -325,15 +325,15 @@ function GroupCall(props) {
 	const refuse = () => {
 		answerCall('refuse') // 
 		if (state.callStatus < 7) { //拒接
-			callManager.hangup()
+			callManager.hangup('refuse')
 			dispatch(setCallStatus(CALLSTATUS.idle))
 		}
-		CallkitProps.onStateChange && CallkitProps.onStateChange({
-			type: "refuse",
-			callInfo: state.confr,
-			groupId: state.groupId,
-			groupName: state.groupName
-		})
+		// CallkitProps.onStateChange && CallkitProps.onStateChange({
+		// 	type: "refuse",
+		// 	callInfo: state.confr,
+		// 	groupId: state.groupId,
+		// 	groupName: state.groupName
+		// })
 		clearTimeout(WebIM.rtc.timer)
 	}
 
