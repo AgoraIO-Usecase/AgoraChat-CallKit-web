@@ -49,6 +49,9 @@ export const sendAlerting = (to, calleeDevId, callId) => {
     const { getState, dispatch } = store
     var id = WebIM.conn.getUniqueId();
     var msg = new WebIM.message('cmd', id);
+    if (!to) {
+        return;
+    }
     msg.set({
         to: to,
         action: 'rtcCall',
@@ -245,6 +248,7 @@ export const addListener = () => {
     const { getState, dispatch } = store
     WebIM.conn.addEventHandler('message', {
         onTextMessage: (message) => {
+            if (message.chatType !== 'singleChat') return;
             const state = getState()
             const { conf, callStatus } = state
             let { from, to } = message
@@ -293,6 +297,7 @@ export const addListener = () => {
                 let callVideo = store.getState();
                 switch (msgInfo.action) {
                     case "invite":
+                        return;
                         if (msg.from == WebIM.conn.context.jid.name) {
                             return // invite msg send by myself on another device
                         }
@@ -379,12 +384,15 @@ export const addListener = () => {
                             callManager.hangup('processed on other devices')
                             dispatch(setCallStatus(CALLSTATUS.idle))
                             WebIM.rtc.timer && clearTimeout(WebIM.rtc.timer)
-                            ret
+                            return
                         }
                         if (msg.ext.result != 'accept' && callVideo.callStatus !== 7) {
                             // Hang up when busy Refuse is received during a call
-                            callManager.hangup(msg.ext.result)
-                            dispatch(setCallStatus(CALLSTATUS.idle))
+                            if (callVideo.callStatus !== 0) {
+                                callManager.hangup(msg.ext.result)
+                                dispatch(setCallStatus(CALLSTATUS.idle))
+                            }
+
                             WebIM.rtc.timer && clearTimeout(WebIM.rtc.timer)
                             return
                         }

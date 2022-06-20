@@ -307,6 +307,11 @@ function GroupCall(props) {
 			callManager.hangup('normal', true)
 		} else {
 			// The call has been connected, don't send cancel call
+			if (state.joinedMembers.length == 1 && state.confr.callerIMName == username) {
+				// send cancel when you are left alone
+				callManager.hangup('normal', true)
+				return
+			}
 			callManager.hangup('normal', false)
 		}
 		dispatch(setCallStatus(CALLSTATUS.idle))
