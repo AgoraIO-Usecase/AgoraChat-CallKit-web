@@ -1,155 +1,175 @@
-# 实现一对一音视频通话
+chat-callkit is an open-source audio and video UI library developed based on Agora's real-time communications and signaling services. With this library, you can implement audio and video calling functionalities with enhanced synchronization between multiple devices. In scenarios where a user ID is logged in to multiple devices, once the user deals with an incoming call that is ringing on one device, all the other devices stop ringing simultaneously.
 
-chat-callkit 是一套基于声网音视频服务，使用 Agora Chat 作为信令通道的开源音视频 UI 库。该库提供一对一语音通话、视频通话，以及多人会议的功能接口。同时，通过信令的交互确认，还可以保证用户在多个设备登录时，能同步处理呼叫振铃，即当用户在一台设备上处理振铃后，其他设备自动停止振铃。
+This page describes how to implement real-time audio and video communications using the chat-callkit.
 
-本文展示如何使用 chat-callkit 快速构建实时音视频场景。
+_其他语言版本： [简体中文](README.CN.md)_
 
-## 实现原理
+## Understand the tech
 
-使用 chat-callkit 实现音视频通话的基本流程如下：
+The basic process for implementing real-time audio and video communications with chat-callkit is as follows:
 
-1. 用户调用 chat-callkit 的初始化接口。
-2. 主叫方调用发起通话邀请接口，自动进入通话页面。
-3. 被叫方调用接听接口弹出通话请求页面，在 UI 界面选择接听，进入通话。
-4. 结束通话时，点击 UI 界面的挂断按钮。
+1. Initialize chat-callkit by calling `init`.
+2. Call `startCall` on the caller's client to send a call invitation for one-to-one or group calls.
+3. On the callee's client, accept or decline the call invitation after receiving `onInvite`. Once a user accepts the invitation, they enter the call.
+4. When the call ends, the SDK triggers the `onStateChange` callback.
 
-## 前提条件
+## Prerequisites
 
-开始前请确保你的项目满足如下条件：
+Before proceeding, ensure that your development environment has the following:
 
--   有一个实现了基础的实时消息功能的 React 项目，包含用户登录登出、添加好友、创建群组等。
--   一个有效的 Agora 账号，并开通了 Token 认证。
--   一个有效的 Agora Chat 账户。
+-   A valid [Agora account](https://docs.agora.io/en/Agora%20Platform/get_appid_token?platform=Android#create-an-agora-account).
+-   An Agora project that has [enabled Agora Chat](./enable_agora_chat?platform=Web).
+-   An Agora Chat project that has integrated the Chat SDK and implemented the [basic real-time chat functionalities](./agora_chat_get_started_web?platform=Web), including users logging in and out and sending and receiving messages.
 
-## 项目设置
+## Project setup
 
-参考如下步骤，将 chat-callkit 集成到你的项目中，并完成相关配置。
+Take the following steps to download and import chat-callkit into your project
 
-### 引入 chat-callkit
+1. In your terminal, run the following command to install the call kit:
 
-参考下文步骤使用 npm 将 chat-callkit 导入到项目中。
+    ```bash
+    npm install chat-callkit
+    ```
 
-1. 下载 chat-callkit。
+2. Add the following line to import the callkit:
 
-```bash
-npm install chat-callkit
-```
+    ```javascript
+    import Callkit from 'chat-callkit';
+    ```
 
-2. 引入 chat-callkit。
+## Implement audio and video calling
 
-```javascript
-import Callkit from 'chat-callkit'; // 包名还没确定
-```
+This section introduces the core steps for implementing audio and video calls in your project.
 
-## 实现音视频通话
+### Initialize chat-callkit
 
-参考如下步骤在项目中实现一对一实时音视频通话。
-
-### 初始化
-
-调用 `init` 进行初始化。
+Call `init` to initialize the chat-callkit.
 
 ```javascript
+/**
+ * Initialize chat-callkit
+ *
+ * @param appId       The Agora App ID.
+ * @param agoraUid    The Agora user ID (UID).
+ * @param connection  The Agora Chat SDK Connection instance.
+ */
 CallKit.init(appId, agoraUid, connection);
 ```
 
-参数说明：
+### Send a call invitation
 
--   appId：声网 App ID。
--   agoraUid: 声网的 uid。
--   connection：Agora chat 实例。
+From the caller's client, call `startCall` to send a call invitation for a one-to-one call or group call. You need to specify the call type when calling the method.
 
-### 发起通话邀请
+-   One-to-one call
 
-调用 `startCall` 方法，发起通话邀请。你需要在该方法中指定通话类型。
+    In a one-to-one call, the caller sends a text message to the callee as the call invitation.
 
--   一对一通话
-    一对一通话会向对方发送一个文本消息作为邀请。
+    ```javascript
+    let options = {
+    	/** The call type:
+    	 * 0: One-to-one audio call
+    	 * 1: One-to-one video call
+    	 * 2: Group video call
+    	 * 3: Group audio call
+    	 */
+    	callType: 0,
+    	chatType: 'singleChat',
+    	/** The Agora Chat user ID. */
+    	to: 'userId',
+    	/** The invitation message. */
+    	message: 'Join me on the call',
+    	/** The channel name for the call. */
+    	channel: 'channel',
+    	/** The Agora RTC token. */
+    	accessToken: 'Agora token',
+    };
+    CallKit.startCall(options);
+    ```
+
+-   Group call
+
+    In a group call, the caller sends a text message to the chat group or chat room, while sending a CMD message to the users for joining the call.
+
+    ```javascript
+    let options = {
+    	/** The call type:
+    	 * 0: One-to-one audio call
+    	 * 1: One-to-one video call
+    	 * 2: Group video call
+    	 * 3: Group audio call
+    	 */
+    	callType: 2,
+    	chatType: 'groupChat',
+    	/** The Agora Chat user ID. */
+    	to: ['userId'],
+    	/** The invitation message. */
+    	message: 'Join me on the call',
+    	/** The group ID. */
+    	groupId: 'groupId',
+    	/** The group name. */
+    	groupName: 'group name',
+    	/** The Agora RTC token. */
+    	accessToken: 'Agora token',
+    	/** The channel name for the call. */
+    	channel: 'channel',
+    };
+    CallKit.startCall(options);
+    ```
+
+The following screenshot gives an example of the user interface after sending a call invitation for one-to-one video call:
+
+![](https://web-cdn.agora.io/docs-files/1655259671848)
+
+### Receive the invitation
+
+Once a call invitaion is sent, if the callee is online and available for a call, the callee receives the invitation in the `onInvite` callback. You can pop out a user interface that allows the callee to accept or decline the invitation in this callback.
 
 ```javascript
-let options = {
-	callType: 0, // 0 1v1 语音，1 1v1视频， 2 多人视频， 3 多人语音
-	chatType: 'singleChat', // 单聊
-	to: 'userId', // 对方的 Agora chat userId
-	message: '邀请你加入语音', // 邀请消息的文本
-	channel: 'channel', // 自己生成的 channel name，让对方加入相同的 channel
-	accessToken: '声网 token', // 后面介绍怎么获取声网 token
-};
-CallKit.startCall(options);
-```
-
--   发起多人通话
-    多人通话会向群里发送一个文本消息，同时向被邀请的人发送 CMD 消息进行邀请。
-
-```javascript
-let options = {
-	callType: 2, // 0 1v1 语音，1 1v1视频， 2 多人视频， 3 多人语音,
-	chatType: 'groupChat',
-	to: ['userId'], // 被邀请的用户 Agora chat userId
-	message: '邀请你视频通话',
-	groupId: 'groupId', // 群组 ID
-	groupName: 'group name', // 群组名称
-	accessToken: '声网 token', // 后面介绍怎么获取声网 token,
-	channel: 'channel', // 自己生成的 channel name，让对方加入相同的 channel,
-};
-CallKit.startCall(options);
-```
-
-发起通话后的 UI 界面如下：
-![image](./images/1v1-outgoing.png)
-
-### 多人通话中再邀请其他人
-
-在多人通话中想要再邀请其他人，可以点击右上角的 "添加人" 按钮，点击之后会触发 `onAddPerson` 回调，触发 onAddPerson 之后，需要用户要实现选择要邀请的人功能，在选择好要邀请的人之后再调用 `startCall` 发起呼叫，其他人就会收到邀请，可以选择加入或者拒绝。
-
-### 收到邀请
-
-主叫方发起邀请后，如果被叫方在线且当前不在通话中，会触发 onInvite 回调，在回调中可以处理是否弹出接听界面，弹出界面后可以选择接听或者挂断。
-
-```js
 /**
- * result： 处理结果。true: 会弹出接听界面；fasle: 不会弹出接听界面。
- * accessToken： 声网 token
+ * Handles the call invitation.
+ *
+ * @param result Whether to pop out the user interface for answering the call.
+ *               - true: Yes.
+ *               - false: No. In this situation, you do not need to pass the RTC token.
+ * @param accessToken The Agora RTC token.
  */
 CallKit.answerCall(result, accessToken);
 ```
 
-如果不想弹出接听的界面可以：
+The following screenshot gives an example of the user interface after receiving a call invitation for one-to-one video call:
 
-```js
-CallKit.answerCall(false);
-```
+![](https://web-cdn.agora.io/docs-files/1655259682186)
 
-![image](./images/1v1-incoming.png)
+### Send a call invitation during a group call
 
-### 结束通话
+In call sessions with multiple users, these users can also send call invitations to other users. After sending the invitation, the SDK triggers the `onAddPerson` callback on the sender's client. In this callback, you can ask the senders to specify the user they want to invite to the group call and then call `startCall` to send out the invitation.
 
-点击页面中的 "挂断" 按钮可以结束通话，一对一通话时一方挂断另一方自动挂断，多人通话时，一方挂断整个通话不会结束。自己挂断会在 `onStateChange` 回调里收到 info.type 为 'hangup'，其他人挂断会在 `onStateChange` 回调里收到 info.type 为 'user-left'。
+### Listen for callback events
 
-### 添加监听
+During the call, you can also listen for the following callback events:
 
 ```javascript
 function Call() {
-	// 通话状态变化的回调
+	// Handles call state changes.
 	const handleCallStateChange = (info) => {
 		switch (info.type) {
 			case 'hangup':
-				// 挂断事件
+				// The call is hung up.
 				break;
 			case 'accept':
-				// 接听事件
+				// The callee accepts the call invitation.
 				break;
 			case 'refuse':
-				// 拒绝接听事件
+				// The callee refuses the call invitation.
 				break;
 			case 'user-published':
-				// 其他人发布媒体流事件
+				// A remote user publishes media streams during the call.
 				break;
 			case 'user-unpublished':
-				// 其他人取消发布流
+				// A remote user stops publishing media streams during the call.
 				break;
 			case 'user-left':
-				// 其他人离开事件
+				// A remote user leaves the call.
 				break;
 			default:
 				break;
@@ -159,37 +179,55 @@ function Call() {
 }
 ```
 
-## 更多操作
+### End the call
 
-### 获取声网 token
+A one-to-one call ends as soon as one of the two users hangs up, while a group call ends only after the local user hangs up. If the local user hangs up the call, the SDK triggers `onStateChange` with the `info.type` of `hangup`. If the remote user hangs up the call, the SDK triggers `onStateChange` with the `info.type` of `user-left`.
 
-获取 token 的过程由用户自己完成，实现从用户自己的 App Server 中获取 token（App Server 的实现参见生成声网 Token，然后在发起通话 `startCall` 和处理邀请 `answerCall` 时需要传入 token。
+## Next steps
 
-## 参考
+This section contains extra steps you can take for the audio and video call functionalities in your project.
 
-### API 列表
+### Authenticate users with the RTC token
 
-方法：
-| 方法 | 说明 |
-|--------- | -------|
-| init | 初始化 CallKit |
-| startCall | 发起通话 |
-| answerCall | 接听通话 |
-| setUserIdMap | 设置声网 ID 映射, 参数形式 {[uid1]: 'custom name', [uid2]: 'custom name'} |
+To enhance communication security, Agora recommends that you authenticate app users with the RTC token before they join a call. To do this, you need to make sure that the [Primary Certificate of your project is enabled](https://docs.agora.io/en/All/faq/appid_to_token).
 
-回调：
-| 方法 | 说明 |
-| ------- | --------- |
-| onAddPerson | 多人通话点击邀请人按钮的回调 |
-| onInvite | 收到通话邀请的回调 |
-| onStateChange | 通话状态发生变化的回调 |
+Tokens are generated on your app server using the token generator provided by Agora. After you retrieve the token, pass the token to the callkit when calling `startCall` and `answerCall`. For how to generate a token on the server and retrieve and renew the token on the client, see [Authenticate Your Users with Tokens](https://docs.agora.io/en/Video/token_server?platform=Web).
 
-属性：
-| 属性 | 说明 |
-| ------ | ------ |
-| contactAvatar | 1v1 通话时显示的头像 |
-| groupAvatar | 多人通话时显示的头像 |
+## Reference
 
-### 示例项目
+This section provides other reference information that you can refer to when implementing real-time audio and video communications functionalities.
 
-`chat-callkit` 库在 Github 上进行了保存，请参见[demo](./demo/README.md) ）。
+### API list
+
+chat-callkit provides the following APIs:
+
+Methods:
+
+| Method                  | Description                                                                                                                          |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| initWithConfig:delegate | Initializes chat-callkit.                                                                                                            |
+| startCall               | Starts a call.                                                                                                                       |
+| answerCall              | Answers the call.                                                                                                                    |
+| setUserIdMap            | Sets the mapping between Agora Chat user ID and Agora user ID (UID). The format is `{[uid1]: 'custom name', [uid2]: 'custom name'}`. |
+
+Callbacks:
+
+| Event         | Description                                            |
+| ------------- | ------------------------------------------------------ |
+| onAddPerson   | Occurs when the user invites another user to the call. |
+| onInvite      | Occurs when the call invitation is received.           |
+| onStateChange | Occurs when the call state changes.                    |
+
+Attributes
+
+| Attribute     | Description                                   |
+| ------------- | --------------------------------------------- |
+| contactAvatar | The avatar displayed during one-to-one calls. |
+| groupAvatar   | The avatar displayed during group calls.      |
+| ringingSource | The ringing file.                             |
+
+### Sample project
+
+Agora provides an open-source [chat-callkit](https://github.com/AgoraIO-Usecase/AgoraChat-CallKit-web/tree/master/demo) sample project on GitHub. You can download the sample to try it out or view the source code.
+
+The sample project uses the Agora Chat user ID to join a channel, which enables displaying the user ID in the view of the call. If you use the methods of the Agora RTC SDK to start a call, you can also use the Integer UID to join a channel.
