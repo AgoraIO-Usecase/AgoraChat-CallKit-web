@@ -152,7 +152,7 @@ function SingleCall(props) {
 	const refuse = () => {
 		answerCall('refuse')
 		if (state.callStatus < CALLSTATUS.confirmCallee) {
-			callManager.hangup('refuse')
+			callManager.hangup('normal')
 			dispatch(setCallStatus(CALLSTATUS.idle))
 		}
 		// CallkitProps.onStateChange && CallkitProps.onStateChange({

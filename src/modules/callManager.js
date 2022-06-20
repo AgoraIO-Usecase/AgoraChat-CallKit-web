@@ -1,9 +1,8 @@
 import AgoraRTC from 'agora-rtc-sdk-ng';
-import axios from 'axios';
 import WebIM from 'easemob-websdk'
 import store from '../redux';
-import { updateConfr, setCallStatus, CALLSTATUS, setCallDuration, changeWinSize, updateJoinedMembers, setUidToUserId } from '../redux/reducer'
-import { sendTextMsg, addListener, cancelCall, sendCMDMsg, sendAlerting } from './message'
+import { updateConfr, setCallStatus, CALLSTATUS, setCallDuration, changeWinSize, updateJoinedMembers, setUidToUserId, updateInvitedMembers } from '../redux/reducer'
+import { sendTextMsg, addListener, cancelCall, sendAlerting } from './message'
 import { formatTime } from './utils'
 
 const client = AgoraRTC.createClient({ mode: 'live', codec: 'h264' });
@@ -84,6 +83,7 @@ class Manager {
 			callerIMName: WebIM.conn.context.jid.name,
 		}
 
+
 		let msgExt = {
 			channelName: channel,
 			token: null,
@@ -94,7 +94,8 @@ class Manager {
 			callerIMName: WebIM.conn.context.jid.name,
 		}
 		this.callId = callId
-		if (chatType === 'groupChat') {
+
+		if (callType === 2 || callType === 3) {
 			confInfo.ext = {
 				groupId: groupId,
 				groupName: groupName
@@ -103,8 +104,24 @@ class Manager {
 				groupId: groupId,
 				groupName: groupName
 			}
-			// sendCMDMsg(chatType, to, message, confInfo)
-			sendTextMsg(chatType, to, message, confInfo)
+			let invitedMembers = state.invitedMembers
+			if (!invitedMembers.includes(to)) {
+				dispatch(updateInvitedMembers([...invitedMembers, to]))
+			}
+		}
+		if (chatType === 'groupChat') {
+			// confInfo.ext = {
+			// 	groupId: groupId,
+			// 	groupName: groupName
+			// }
+			// msgExt.ext = {
+			// 	groupId: groupId,
+			// 	groupName: groupName
+			// }
+			// let invitedMembers = state.invitedMembers
+			// dispatch(updateInvitedMembers([...invitedMembers, to]))
+			// // sendCMDMsg(chatType, to, message, confInfo)
+			// sendTextMsg(chatType, to, message, confInfo)
 		} else {
 			sendTextMsg(chatType, to, message, confInfo)
 		}
@@ -186,7 +203,14 @@ class Manager {
 		const state = getState()
 		const { confr } = state
 		if (isCancel && confr.callerIMName == WebIM.conn.context.jid.name) {
-			cancelCall()
+			console.log('发宋取消消息', state.invitedMembers)
+			if (confr.type == 2 || confr.type == 3) {
+				state.invitedMembers.forEach((member) => {
+					cancelCall(member)
+				})
+			} else {
+				cancelCall()
+			}
 		}
 
 		this.props.onStateChange && this.props.onStateChange({
@@ -205,6 +229,7 @@ class Manager {
 		dispatch(setCallDuration('00:00'))
 		dispatch(changeWinSize('normal'))
 		dispatch(updateJoinedMembers([]))
+		dispatch(updateInvitedMembers([]))
 		dispatch(updateConfr({
 			to: '',
 			ext: {}
