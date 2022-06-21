@@ -203,7 +203,7 @@ function GroupCall(props) {
 				joined.audio = true
 				dispatch(updateJoinedMembers(joined))
 				const remoteAudioTrack = user.audioTrack;
-				remoteAudioTrack.play();
+				remoteAudioTrack && remoteAudioTrack.play();
 			}
 		});
 
@@ -330,7 +330,7 @@ function GroupCall(props) {
 	const refuse = () => {
 		answerCall('refuse') // 
 		if (state.callStatus < 7) { //拒接
-			callManager.hangup('refuse')
+			callManager.hangup('normal')
 			dispatch(setCallStatus(CALLSTATUS.idle))
 		}
 		// CallkitProps.onStateChange && CallkitProps.onStateChange({
