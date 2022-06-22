@@ -81,6 +81,17 @@ class Manager {
 			ts: Date.now(),
 			msgType: 'rtcCallWithAgora',
 			callerIMName: WebIM.conn.context.jid.name,
+			// for ios push
+			chatType: callType,
+			em_push_ext: {
+				type: 'call',
+				custom: {
+					callId: callId
+				}
+			},
+			em_apns_ext: {
+				em_push_type: 'voip'
+			}
 		}
 
 
@@ -203,7 +214,6 @@ class Manager {
 		const state = getState()
 		const { confr } = state
 		if (isCancel && confr.callerIMName == WebIM.conn.context.jid.name) {
-			console.log('发宋取消消息', state.invitedMembers)
 			if (confr.type == 2 || confr.type == 3) {
 				state.invitedMembers.forEach((member) => {
 					cancelCall(member)
