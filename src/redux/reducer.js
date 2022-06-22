@@ -91,14 +91,12 @@ export const counterSlice = createSlice({
 				let joinedMembers = [...state.joinedMembers]
 				joinedMembers.forEach((item, index) => {
 					if (item.name === action.payload.name || item.value === action.payload.name) {
-						if (item.value === action.payload.name) {
-							item.videoElm = action.payload.videoElm
-							item.mediaType = action.payload.mediaType
-							item.audio = action.payload.audio || false
-							item.video = action.payload.video || false
-							item.isSelf = action.payload.isSelf
-							state.joinedMembers = joinedMembers
-						}
+						item.videoElm = action.payload.videoElm
+						item.mediaType = action.payload.mediaType
+						item.audio = action.payload.audio || false
+						item.video = action.payload.video || false
+						item.isSelf = action.payload.isSelf
+						state.joinedMembers = joinedMembers
 						exist = true
 					}
 				})
