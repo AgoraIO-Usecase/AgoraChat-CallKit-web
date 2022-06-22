@@ -186,6 +186,12 @@ function GroupCall(props) {
 				audio: true,
 				video: true
 			}
+			state.joinedMembers.forEach((member) => {
+				if (member.value == user.uid) {
+					joined = Object.assign({ action: 'add' }, member)
+				}
+			})
+
 			videoElm = 'video' + user.uid;
 
 			// subscribe video stream。
