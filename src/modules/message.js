@@ -258,7 +258,7 @@ export const addListener = () => {
                 }
                 if (message.chatType == 'singleChat') {
                     if (callStatus > CALLSTATUS.idle) { // busy
-                        answerCall('busy', { callId: message.ext.callId, callerDevId: message.ext.callerDevId, to: from })
+                        answerCall('busy', { currentCallId: message.ext.callId, callerDevId: message.ext.callerDevId, to: from })
                     } else {
                         message.ext.calleeIMName = message.to;
                         message.ext.callerIMName = message.from;
@@ -271,7 +271,7 @@ export const addListener = () => {
                         if (msgInfo.callId == conf.callId) {
                             dispatch(setCallStatus(CALLSTATUS.alerting))
                         } else {
-                            answerCall('busy', { callId: msgInfo.callId, callerDevId: msgInfo.callerDevId, to: from })
+                            answerCall('busy', { currentCallId: msgInfo.callId, callerDevId: msgInfo.callerDevId, to: from })
                         }
                     }
 
@@ -308,7 +308,7 @@ export const addListener = () => {
                             if (msgInfo.callId == conf.callId) {
                                 dispatch(setCallStatus(CALLSTATUS.alerting))
                             } else {
-                                answerCall('busy', { callId: msgInfo.callId, callerDevId: msgInfo.callerDevId, to: from })
+                                answerCall('busy', { currentCallId: msgInfo.callId, callerDevId: msgInfo.callerDevId, to: from })
                             }
                         }
 
