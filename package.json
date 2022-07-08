@@ -1,5 +1,5 @@
 {
-  "name": "callkit",
+  "name": "chat-callkit",
   "version": "1.0.0",
   "description": "callkit React component",
   "main": "lib/index.js",
@@ -35,11 +35,10 @@
   ],
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.1",
-    "agora-chat": "^1.0.2",
+    "agora-chat": "^1.0.5",
     "agora-rtc-sdk-ng": "^4.11.0",
     "axios": "^0.27.2",
     "classnames": "^2.3.1",
-    "easemob-websdk": "^4.0.4",
     "react-draggable": "^4.4.5",
     "react-redux": "^8.0.1"
   }

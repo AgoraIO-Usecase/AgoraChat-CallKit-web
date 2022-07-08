@@ -11,7 +11,7 @@ function App() {
 
     const login = async () => {
         console.log(userInfo)
-        const { accessToken, agoraUid } = await getLoginToken(userInfo.userId, userInfo.displayedName)
+        const { accessToken, agoraUid } = await getLoginToken(userInfo.userId, userInfo.password)
         WebIM.conn.agoraUid = agoraUid
         WebIM.conn.open({
             user: userInfo.userId,
@@ -71,8 +71,8 @@ function App() {
                 <label>User ID</label>
                 <input onChange={handleChange('userId')} className="input"></input>
 
-                <label>Displayed Profile Name</label>
-                <input onChange={handleChange('displayedName')} className="input"></input>
+                <label>Password</label>
+                <input onChange={handleChange('password')} className="input"></input>
                 <button onClick={login} className="button">Login</button>
 
                 <br />

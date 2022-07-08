@@ -1,5 +1,5 @@
 import AgoraRTC from 'agora-rtc-sdk-ng';
-import WebIM from 'easemob-websdk'
+import WebIM from 'agora-chat'
 import store from '../redux';
 import { updateConfr, setCallStatus, CALLSTATUS, setCallDuration, changeWinSize, updateJoinedMembers, setUidToUserId, updateInvitedMembers } from '../redux/reducer'
 import { sendTextMsg, addListener, cancelCall, sendAlerting } from './message'

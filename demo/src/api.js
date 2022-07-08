@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export const getLoginToken = (agoraId, nickName) => {
     return axios
-        .post('https://a41.easemob.com/app/chat/user/login', { "userAccount": agoraId, "userNickname": nickName })
+        .post('https://a41.easemob.com/app/chat/user/login', { "userAccount": agoraId, "userPassword": nickName })
         .then(function (response) {
             return response.data;
         })

@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import classnames from 'classnames';
 import MiniWindow from '../modules/miniWindow'
 import { CALLSTATUS } from '../redux/reducer'
-import {CallkitContext} from '../index'
+import { CallkitContext } from '../index'
 function Layout({ onAddPerson, onStateChange, onInvite }) {
 	const CallkitProps = useContext(CallkitContext);
 	const confr = useSelector((state) => state.confr);
@@ -29,26 +29,27 @@ function Layout({ onAddPerson, onStateChange, onInvite }) {
 	useEffect(() => {
 		if (callStatus === CALLSTATUS.alerting) {
 			onInvite && onInvite(confr)
-			if(!CallkitProps.ringingSource){
+			if (!CallkitProps.ringingSource) {
 				console.warn('no ringing source.')
+				return
 			}
 			audio.current = new Audio()
-			audio.current.muted="muted"
+			audio.current.muted = "muted"
 			audio.current.src = CallkitProps.ringingSource
 			audio.current.play()
-			audio.current.muted=false
+			audio.current.muted = false
 
 			audio.current.onended = () => {
 				audio.current.load()
 				audio.current.play()
 			}
-		}else if(callStatus != CALLSTATUS.receivedConfirmRing){
-			if(!audio.current) return
+		} else if (callStatus != CALLSTATUS.receivedConfirmRing) {
+			if (!audio.current) return
 			audio.current.pause()
 			audio.current.src = null;
 			audio.current.load()
 		}
-	
+
 	}, [callStatus])
 
 	return (
