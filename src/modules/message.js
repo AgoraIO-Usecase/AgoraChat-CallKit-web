@@ -18,6 +18,7 @@ export const sendTextMsg = (chatType, to, message, ext) => {
 
     if (ext.type === 0 || ext.type === 1) {
         const { dispatch } = store
+        WebIM.rtc.timer && clearTimeout(WebIM.rtc.timer)
         WebIM.rtc.timer = setTimeout(() => {
             console.warn('caller timeout')
             callManager.hangup('timeout', true)
@@ -50,6 +51,7 @@ export const sendAlerting = (to, calleeDevId, callId) => {
     var id = WebIM.conn.getUniqueId();
     var msg = new WebIM.message('cmd', id);
     if (!to) {
+        console.error('to is undefined when send alerting.')
         return;
     }
     msg.set({
@@ -72,6 +74,7 @@ export const sendAlerting = (to, calleeDevId, callId) => {
     });
 
     WebIM.conn.send(msg.body);
+    WebIM.rtc.timer && clearTimeout(WebIM.rtc.timer)
     WebIM.rtc.timer = setTimeout(() => {
         console.warn('callee timeout')
         callManager.hangup('timeout')
@@ -334,10 +337,10 @@ export const addListener = () => {
                         }
 
                         if (!msgInfo.status && callVideo.callStatus < CALLSTATUS.receivedConfirmRing) {
-                            console.warn('The invitation has expired')
+                            console.warn('The invitation has expired', msgInfo)
                             dispatch(setCallStatus(CALLSTATUS.idle))
                             callManager.hangup('invitation has expired')
-                            // WebIM.rtc.timer && clearTimeout(WebIM.rtc.timer)
+                            WebIM.rtc.timer && clearTimeout(WebIM.rtc.timer)
                             return
                         }
                         deviceId = msgInfo.calleeDevId

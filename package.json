@@ -1,6 +1,6 @@
 {
   "name": "chat-callkit",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "callkit React component",
   "main": "lib/index.js",
   "module": "es/index.js",
@@ -19,7 +19,8 @@
     "test:watch": "nwb test-react --server"
   },
   "peerDependencies": {
-    "react": ">16.x"
+    "react": ">=16.0.0",
+    "react-dom": ">=16.0.0"
   },
   "devDependencies": {
     "nwb": "0.25.x",
@@ -36,7 +37,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.1",
     "agora-chat": "^1.0.5",
-    "agora-rtc-sdk-ng": "^4.11.0",
+    "agora-rtc-sdk-ng": "^4.16.0",
     "axios": "^0.27.2",
     "classnames": "^2.3.1",
     "react-draggable": "^4.4.5",
