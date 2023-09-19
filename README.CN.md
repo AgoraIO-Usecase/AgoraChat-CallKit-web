@@ -38,7 +38,7 @@ npm install chat-callkit
 2. 引入 chat-callkit。
 
 ```javascript
-import Callkit from 'chat-callkit'; // 包名还没确定
+import Callkit from 'chat-callkit';
 ```
 
 ## 实现音视频通话

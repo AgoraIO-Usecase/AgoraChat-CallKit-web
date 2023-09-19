@@ -6,7 +6,7 @@ import {
 } from 'react-redux';
 import store from './redux';
 import Layout from './layout';
-import { callManager } from './modules/callManager'
+import { callManager, WebIM, AgoraRTC } from './modules/callManager'
 import { sendTextMsg } from './modules/message'
 
 window.callkit_store = store;
@@ -89,6 +89,17 @@ Callkit.setUserIdMap = function (idMap) {
     throw new Error(`invalid parameter idMap: ${idMap}`)
   }
   callManager.setUserIdMap(idMap)
+}
+
+Callkit.setUserInfo = function (userInfo) {
+  if (typeof userInfo !== 'object') {
+    throw new Error(`invalid parameter userInfo: ${userInfo}`)
+  }
+  callManager.setUserInfo(userInfo)
+}
+
+Callkit.getAgoraRTC = function () {
+  return AgoraRTC
 }
 
 export default Callkit;

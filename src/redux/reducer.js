@@ -32,6 +32,7 @@ export const counterSlice = createSlice({
 		uid2userId: {},
 		joinedMembers: [],
 		invitedMembers: [],
+		userInfo: {}
 	},
 	reducers: {
 		changeWinSize: (state, action) => {
@@ -84,6 +85,10 @@ export const counterSlice = createSlice({
 			state.uid2userId = action.payload
 		},
 
+		setUserInfos: (state, action) => {
+			state.userInfo = action.payload
+		},
+
 		updateJoinedMembers: (state, action, oth) => {
 			const actionType = action.payload.action
 			if (actionType === 'add') {
@@ -117,7 +122,7 @@ export const counterSlice = createSlice({
 	},
 });
 
-export const { changeWinSize, setCallStatus, setCallDuration, updateConfr, setUidToUserId, updateJoinedMembers, updateInvitedMembers } =
+export const { changeWinSize, setCallStatus, setCallDuration, updateConfr, setUidToUserId, setUserInfos, updateJoinedMembers, updateInvitedMembers } =
 	counterSlice.actions;
 
 export default counterSlice.reducer;

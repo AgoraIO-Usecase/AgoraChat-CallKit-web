@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import React, { useContext } from 'react';
 import { WebIM, callManager } from '../callManager'
 import { useSelector, useDispatch } from 'react-redux';
-import { setCallStatus, CALLSTATUS, updateJoinedMembers } from '../../redux/reducer'
+import { setCallStatus, CALLSTATUS, updateJoinedMembers, updateConfr } from '../../redux/reducer'
 import { answerCall } from '../message'
 import { CallkitContext } from '../../index'
 import store from '../../redux';
@@ -50,6 +50,7 @@ function SingleCall(props) {
 	const dispatch = useDispatch();
 	const { contactAvatar } = CallkitProps
 	const uid2userids = useSelector(state => state.uid2userId)
+	const userInfo = useSelector(state => state.userInfo)
 	const { client } = callManager
 	callManager.setCallKitProps(CallkitProps)
 
@@ -120,11 +121,14 @@ function SingleCall(props) {
 		addListener()
 		return () => {
 			WebIM.rtc.client.removeAllListeners()
+			dispatch(updateConfr({}))
+			dispatch(setCallStatus(CALLSTATUS.idle))
+			clearTimeout(WebIM.rtc.timer)
 		}
 	}, [])
 
 	useEffect(() => {
-		if (state.callStatus === CALLSTATUS.confirmRing || state.callStatus === CALLSTATUS.answerCall) {
+		if (state.callStatus === CALLSTATUS.inviting || state.callStatus === CALLSTATUS.answerCall) {
 			joinConfr()
 		}
 	}, [state.callStatus])
@@ -133,8 +137,9 @@ function SingleCall(props) {
 		callManager.join()
 	}
 
-	const hangup = () => {
-		callManager.hangup('normal', true)
+	const hangup = (reason) => {
+		const outreason = typeof reason == 'string' ? reason : 'normal'
+		callManager.hangup(outreason, true)
 		dispatch(setCallStatus(CALLSTATUS.idle))
 	}
 
@@ -152,7 +157,7 @@ function SingleCall(props) {
 	const refuse = () => {
 		answerCall('refuse')
 		if (state.callStatus < CALLSTATUS.confirmCallee) {
-			callManager.hangup('normal')
+			callManager.hangup('refuse')
 			dispatch(setCallStatus(CALLSTATUS.idle))
 		}
 		// CallkitProps.onStateChange && CallkitProps.onStateChange({
@@ -269,13 +274,15 @@ function SingleCall(props) {
 	if (uid2userids[targetUserId]) {
 		targetUserName = uid2userids[targetUserId]
 	}
+	targetUserName = userInfo[targetUserName] ? userInfo[targetUserName].nickname : targetUserName
 	if (state.callStatus > CALLSTATUS.answerCall && state.confr.type === 0) {
 		callType = state.callDuration
 	}
+	const avatarToShow = typeof contactAvatar == 'object' ? contactAvatar : <Avatar src={contactAvatar || head} alt="name" style={{ zIndex: 9 }}></Avatar>
 	return (
 		<div style={style} className="callkit-singleCall-container">
 			{showAvatar && <>
-				<Avatar src={contactAvatar || head} alt="name" style={{ zIndex: 9 }}></Avatar>
+				{avatarToShow}
 				<div className="callkit-singleCall-username">{targetUserName}</div>
 				<div className="callkit-singleCall-title">{callType}</div>
 			</>}
