@@ -216,7 +216,6 @@ class Manager {
 	}
 
 	async hangup(reason, isCancel) {
-		console.log('*****hangup', reason, isCancel)
 		this.rtc.localAudioTrack && this.rtc.localAudioTrack.close();
 		this.rtc.localVideoTrack && this.rtc.localVideoTrack.close();
 		this.rtc.intervalTimer && clearInterval(this.rtc.intervalTimer)
