@@ -44,12 +44,13 @@ function MiniWindow(props) {
 		}
 	}, [state.windowSize])
 
-	let avater;
+	let avatar;
 	if (confr.type > 1) {
-		avater = groupAvatar ? groupAvatar : head
+		avatar = groupAvatar ? groupAvatar : head
 	} else {
-		avater = contactAvatar ? contactAvatar : head
+		avatar = contactAvatar ? contactAvatar : head
 	}
+	const avatarToShow = typeof avatar == 'object' ? avatar : <Avatar className="callkit-miniwin-avatar" src={avatar || head} alt="name" style={{ borderRadius: groupAvatar ? 'inherit' : '50%' }}></Avatar>
 	const content = isVideo ? (
 		<>
 			<div
@@ -59,12 +60,12 @@ function MiniWindow(props) {
 			<div className="callkit-miniwin-video-text">{text}</div>
 		</>
 	) : (
-		<>
-			<Avatar
-				style={{ borderRadius: groupAvatar ? 'inherit' : '50%' }}
-				src={avater}
-				className="callkit-miniwin-avatar"
-			></Avatar>
+		<>	{
+			typeof avatar == 'object' ? <div className='callkit-miniwin-avatar'>
+				{avatarToShow}
+			</div> : avatarToShow
+		}
+
 			<span className="callkit-miniwin-text">{text}</span>
 		</>
 	);

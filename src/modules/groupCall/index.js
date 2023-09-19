@@ -46,9 +46,9 @@ function VideoCall(props) {
 }
 
 function AudioCall(props) {
-	const { active, text, mute } = props;
+	const { active, text, mute, avatarUrl } = props;
 	const CallkitProps = useContext(CallkitContext);
-	const { contactAvatar } = CallkitProps
+	// const { contactAvatar } = CallkitProps
 	const cls = classnames({
 		'callkit-group-audio-avatar': true,
 		'callkit-group-audio-active': active,
@@ -62,7 +62,7 @@ function AudioCall(props) {
 	});
 	return (
 		<div className="callkit-group-audio-container">
-			<Avatar src={contactAvatar || head} alt="name" className={cls}></Avatar>
+			<Avatar src={avatarUrl || head} alt="name" className={cls}>{text}</Avatar>
 			<Icon className={iconClass}></Icon>
 			<div className="callkit-group-audio-username">
 				{text}
@@ -78,6 +78,7 @@ function GroupCall(props) {
 	const [isTalking, setTalkings] = useState([])
 	const state = useSelector(state => state)
 	const uid2userids = useSelector(state => state.uid2userId)
+	const userInfo = useSelector(state => state.userInfo)
 	const dispatch = useDispatch();
 	const username = WebIM.conn.context.userId
 	const { groupAvatar } = CallkitProps
@@ -272,6 +273,9 @@ function GroupCall(props) {
 		addListener()
 		return () => {
 			WebIM.rtc.client.removeAllListeners()
+			dispatch(updateConfr({}))
+			dispatch(setCallStatus(CALLSTATUS.idle))
+			clearTimeout(WebIM.rtc.timer)
 		}
 	}, [])
 
@@ -336,7 +340,7 @@ function GroupCall(props) {
 	const refuse = () => {
 		answerCall('refuse') // 
 		if (state.callStatus < 7) { //拒接
-			callManager.hangup('normal')
+			callManager.hangup('refuse')
 			dispatch(setCallStatus(CALLSTATUS.idle))
 		}
 		// CallkitProps.onStateChange && CallkitProps.onStateChange({
@@ -373,11 +377,12 @@ function GroupCall(props) {
 		'callkit-group-flex-start': state.joinedMembers.length > 6,
 		'callkit-group-container-video': state.confr.type === 2
 	})
+	const avatarToShow = typeof groupAvatar == 'object' ? groupAvatar : <Avatar src={groupAvatar || head} alt="name" style={{ zIndex: 9 }}></Avatar>
 	return (
 		<div className={containerCls}>
 
 			{showAvatar && <div className='callkit-group-avatar'>
-				<Avatar src={groupAvatar || head} style={{ borderRadius: groupAvatar ? 'inherit' : '50%', zIndex: 9 }} alt="name"></Avatar>
+				{avatarToShow}
 				<div className="callkit-singleCall-username">{state.groupName}</div>
 				<div className="callkit-singleCall-title">{callType}</div>
 			</div>}
@@ -385,7 +390,7 @@ function GroupCall(props) {
 			{
 				state.confr.type === 3 && state.joinedMembers.map((item) => {
 					let talking = isTalking.includes(item.name)
-					return <AudioCall key={item.name} active={talking} text={item.name} mute={!item.audio}></AudioCall>
+					return <AudioCall key={item.name} active={talking} text={userInfo[item.name]?.nickname || item.name} mute={!item.audio} avatarUrl={userInfo[item.name]?.avatarUrl}></AudioCall>
 				})
 			}
 
@@ -399,7 +404,7 @@ function GroupCall(props) {
 							className = 'callkit-group-video-2-target'
 						}
 					}
-					return <VideoCall key={item.value} text={item.name} id={'video' + item.value} className={className} data={item}></VideoCall>
+					return <VideoCall key={item.value} text={userInfo[item.name]?.nickname || item.name} id={'video' + item.value} className={className} data={item}></VideoCall>
 				})
 			}
 

@@ -1,7 +1,7 @@
 import AgoraRTC from 'agora-rtc-sdk-ng';
 import WebIM from 'agora-chat'
 import store from '../redux';
-import { updateConfr, setCallStatus, CALLSTATUS, setCallDuration, changeWinSize, updateJoinedMembers, setUidToUserId, updateInvitedMembers } from '../redux/reducer'
+import { updateConfr, setCallStatus, CALLSTATUS, setCallDuration, changeWinSize, updateJoinedMembers, setUidToUserId, setUserInfos, updateInvitedMembers } from '../redux/reducer'
 import { sendTextMsg, addListener, cancelCall, sendAlerting } from './message'
 import { formatTime } from './utils'
 
@@ -47,6 +47,15 @@ class Manager {
 	setUserIdMap(idMap) {
 		const { getState, dispatch } = store
 		dispatch(setUidToUserId(idMap))
+	}
+
+	setUserInfo(userInfo) {
+		const { getState, dispatch } = store
+		const state = getState()
+		dispatch(setUserInfos({
+			...state.userInfo,
+			...userInfo
+		}))
 	}
 
 	answerCall(result, accessToken) {
@@ -206,7 +215,8 @@ class Manager {
 		this.rtc.intervalTimer = timerId
 	}
 
-	async hangup(reson, isCancel) {
+	async hangup(reason, isCancel) {
+		console.log('*****hangup', reason, isCancel)
 		this.rtc.localAudioTrack && this.rtc.localAudioTrack.close();
 		this.rtc.localVideoTrack && this.rtc.localVideoTrack.close();
 		this.rtc.intervalTimer && clearInterval(this.rtc.intervalTimer)
@@ -225,7 +235,7 @@ class Manager {
 
 		this.props.onStateChange && this.props.onStateChange({
 			type: 'hangup',
-			reson: reson,
+			reason: reason,
 			callInfo: {
 				...state.confr,
 				duration: state.callDuration,
@@ -244,10 +254,11 @@ class Manager {
 			to: '',
 			ext: {}
 		}))
+		dispatch(setUserInfos({}))
 	}
 }
 
 export const callManager = new Manager();
 
-export { client, WebIM }
+export { client, WebIM, AgoraRTC }
 
