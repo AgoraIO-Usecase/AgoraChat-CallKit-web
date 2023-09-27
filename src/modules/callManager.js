@@ -187,7 +187,9 @@ class Manager {
 			await client.publish(config);
 			let videoElm = confr.type === 2 ? 'video' + uid : 'local-player'
 			dispatch(updateJoinedMembers({ videoElm: videoElm, name: displayedName, type: 'video', value: uid, action: 'add', audio: true, video: true, isSelf: true }))
-			localVideoTrack.play(videoElm);
+			setTimeout(() => {
+				localVideoTrack.play(videoElm);
+			}, 500);
 		}
 		this.startTime()
 	}
