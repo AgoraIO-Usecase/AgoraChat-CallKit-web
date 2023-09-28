@@ -58,6 +58,25 @@
     height: 100%;
     position: absolute;
 }
+.callkit-group-video-2-self .callkit-group-video-name{
+    position: relative;
+    top: 16px;
+    left: 0;
+}
+.callkit-group-video-2-self .callkit-group-video-avatar-box{
+    margin-top: 20%;
+}
+
+.callkit-group-video-2-target .callkit-group-video-avatar-box{
+    margin-top: 10px;
+}
+.callkit-group-video-name-left{
+    position: absolute!important;
+    left: 20px!important;
+    top: calc(100% - 80px)!important;
+    height: 20px;
+    width: fit-content!important;
+}
 .callkit-group-video-2-target{
     position: absolute;
     right: 12px;
@@ -112,10 +131,11 @@
 }
 .callkit-group-video-avatar-box{
     width: 100%;
-    height: 100%;
+    height: 80px;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: calc(50% - 40px);
 }
 /* // ================== audio ============ */
 
@@ -134,7 +154,7 @@
     height: 80px !important;
     /* // box-sizing: border-box; */
     position: relative;
-    top: 4px;
+    /* top: 4px; */
 }
 
 .callkit-group-audio-active{
