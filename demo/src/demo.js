@@ -22,8 +22,6 @@ function App() {
 
     const handleChange = (type) => {
         return (e) => {
-            console.log('type', type)
-            console.log(e.target.value)
             setUserInfo((info) => {
                 return {
                     ...info,
@@ -90,7 +88,7 @@ function App() {
         };
         CallKit.startCall(options);
 
-        CallKit.setUserIdMap({'uid': 'chatUserId'});
+        CallKit.setUserIdMap({ 'uid': 'chatUserId' });
 
     }
 
@@ -101,7 +99,7 @@ function App() {
                 break;
             case 'user-published':
                 // getIdMap
-                CallKit.setUserIdMap({'uid': 'chatUserId'});;
+                CallKit.setUserIdMap({ 'uid': 'chatUserId' });;
                 break;
             default:
                 break;
@@ -109,7 +107,6 @@ function App() {
     };
 
     const handleInputChange = (type) => (e) => {
-        console.log(e.target.value)
         setGroupCallData((data) => {
             return {
                 ...data,
@@ -155,7 +152,7 @@ function App() {
                 <button onClick={startGroupCall} className="button">startCall</button>
             </div>
 
-            <CallKit  agoraUid={WebIM.conn.agoraUid} onInvite={handleInvite} onStateChange={handleCallStateChange}></CallKit>
+            <CallKit agoraUid={WebIM.conn.agoraUid} onInvite={handleInvite} onStateChange={handleCallStateChange}></CallKit>
         </div>
     );
 }

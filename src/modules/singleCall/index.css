@@ -64,9 +64,29 @@
     overflow: hidden;
 }
 
+.callkit-single-video-target .callkit-component-avatar{
+    width: 50px;
+    height: 50px;
+}
+.callkit-single-video-target .callkit-single-video-info{
+    top: calc(50% - 36px);
+}
+
 .callkit-singleCall-slash{
     background-color: #fff;
     color: #000;
 }
 
+.callkit-single-video-info{
+    position: absolute;
+    top: calc(50% - 45px);
+    /* left: 50%; */
+    z-index: 999;
+    color: #fff;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 
