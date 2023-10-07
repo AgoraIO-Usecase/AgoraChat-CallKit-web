@@ -35,10 +35,14 @@ function VideoCall(props) {
 		'display-none': data.video,
 	});
 	const showAvatar = !data.video
+
+	const nameClass = classnames('callkit-group-video-name', {
+		'callkit-group-video-name-left': !showAvatar && data.isSelf
+	})
 	return (
 		<div className={cls} id={id}>
 			{showAvatar && <div className='callkit-group-video-avatar-box'><Avatar src={contactAvatar || head} className="callkit-group-audio-avatar"></Avatar></div>}
-			<span className='callkit-group-video-name'>{text}</span>
+			<span className={nameClass}>{text}</span>
 			<Icon className={audioIconClass}></Icon>
 			<Icon className={videoIconClass}></Icon>
 		</div>
@@ -367,6 +371,16 @@ function GroupCall(props) {
 		setCamera((isCloseCamera) => !isCloseCamera)
 		let status = isCloseCamera ? true : false
 		WebIM.rtc.localVideoTrack.setEnabled && WebIM.rtc.localVideoTrack.setEnabled(status)
+
+		const joinedMembersCp = [...state.joinedMembers]
+		joinedMembersCp.forEach((item, index) => {
+			if (item.value == callManager.agoraUid) {
+				let user = Object.assign({}, item)
+				user.video = status
+				joinedMembersCp[index] = user
+			}
+		})
+		dispatch(updateJoinedMembers(joinedMembersCp))
 	}
 
 	const showAvatar = [0, 3, 5, 6, 7].includes(state.callStatus) ? false : true
