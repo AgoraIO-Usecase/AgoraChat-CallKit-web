@@ -11,9 +11,11 @@ import { setCallStatus, CALLSTATUS, updateJoinedMembers, updateConfr } from '../
 import { answerCall } from '../message'
 import { CallkitContext } from '../../index'
 import store from '../../redux';
-function VideoCall() {
+function VideoCall({ targetInfo, myInfo }) {
+	const state = useSelector(state => state)
 	const [selfScreenFull, setScreen] = useState(true);
-	const swichScreen = () => {
+
+	const switchScreen = () => {
 		setScreen(() => {
 			return !selfScreenFull;
 		});
@@ -27,17 +29,28 @@ function VideoCall() {
 						? 'callkit-single-video-self'
 						: 'callkit-single-video-target'
 				}
-				onClick={swichScreen}
-			></div>
+				onClick={switchScreen}
+			>
+				<div className='callkit-single-video-info' style={{ display: state.callStatus >= CALLSTATUS.confirmCallee && myInfo.isCloseCamera ? 'flex' : 'none' }}>
+					{myInfo.avatar}
+					<div>{myInfo.userName}</div>
+				</div>
+			</div>
 			<div
+				style={{ visibility: state.callStatus >= CALLSTATUS.confirmCallee ? 'visible' : 'hidden' }}
 				id="remote-player"
 				className={
 					!selfScreenFull
 						? 'callkit-single-video-self'
 						: 'callkit-single-video-target'
 				}
-				onClick={swichScreen}
-			></div>
+				onClick={switchScreen}
+			>
+				<div className='callkit-single-video-info' style={{ display: state.callStatus >= CALLSTATUS.confirmCallee && targetInfo.isCloseCamera ? 'flex' : 'none' }}>
+					{targetInfo.avatar}
+					<div>{targetInfo.userName}</div>
+				</div>
+			</div>
 		</div>
 	);
 }
@@ -46,6 +59,7 @@ function SingleCall(props) {
 	const { style } = props;
 	const [isMute, setMute] = useState(false)
 	const [isCloseCamera, setCamera] = useState(false)
+	const [targetIsCloseCamera, setTargetCamera] = useState(false)
 	const state = useSelector(state => state)
 	const dispatch = useDispatch();
 	const { contactAvatar } = CallkitProps
@@ -97,6 +111,7 @@ function SingleCall(props) {
 				WebIM.rtc.other = user
 				remoteAudioTrack.play();
 			}
+			setTargetCamera(false)
 		});
 
 		client.on("user-left", (user, mediaType) => {
@@ -114,6 +129,7 @@ function SingleCall(props) {
 				user,
 				mediaType
 			})
+			setTargetCamera(true)
 		});
 	}
 
@@ -275,10 +291,17 @@ function SingleCall(props) {
 		targetUserName = uid2userids[targetUserId]
 	}
 	targetUserName = userInfo[targetUserName] ? userInfo[targetUserName].nickname : targetUserName
+	let myUserName = userInfo[WebIM.conn.user] ? userInfo[WebIM.conn.user].nickname : WebIM.conn.user
 	if (state.callStatus > CALLSTATUS.answerCall && state.confr.type === 0) {
 		callType = state.callDuration
 	}
-	const avatarToShow = typeof contactAvatar == 'object' ? contactAvatar : <Avatar src={contactAvatar || head} alt="name" style={{ zIndex: 9 }}></Avatar>
+	let avatarToShow;
+	if (userInfo[targetUserName]?.avatarUrl) {
+		avatarToShow = <Avatar src={userInfo[targetUserName]?.avatarUrl || head} alt="name" style={{ zIndex: 9 }}></Avatar>
+	} else {
+		avatarToShow = typeof contactAvatar == 'object' ? contactAvatar : <Avatar src={contactAvatar || head} alt="name" style={{ zIndex: 9 }}></Avatar>
+	}
+	const myAvatar = <Avatar src={userInfo[WebIM.conn.user]?.avatarUrl || head} alt="name" style={{ zIndex: 9 }}></Avatar>
 	return (
 		<div style={style} className="callkit-singleCall-container">
 			{showAvatar && <>
@@ -287,7 +310,17 @@ function SingleCall(props) {
 				<div className="callkit-singleCall-title">{callType}</div>
 			</>}
 			{
-				callType === 'Video Call' && <VideoCall />
+				callType === 'Video Call' && <VideoCall targetInfo={{
+					avatar: avatarToShow,
+					userName: targetUserName,
+					isCloseCamera: targetIsCloseCamera
+				}}
+					myInfo={{
+						isCloseCamera: isCloseCamera,
+						avatar: myAvatar,
+						userName: myUserName
+					}}
+				/>
 			}
 			<div className="callkit-singleCall-control">
 				{getControls()}
