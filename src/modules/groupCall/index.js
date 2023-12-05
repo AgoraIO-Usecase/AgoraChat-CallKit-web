@@ -15,7 +15,7 @@ import { CallkitContext } from '../../index';
 
 const MAXUSERS = 16
 function VideoCall(props) {
-	const { text, className, id, avatarUrl } = props;
+	const { text, className, id, avatarUrl, memberCount } = props;
 	const CallkitProps = useContext(CallkitContext);
 	// const { contactAvatar } = CallkitProps
 	const cls = classnames(className, {
@@ -37,7 +37,7 @@ function VideoCall(props) {
 	const showAvatar = !data.video
 
 	const nameClass = classnames('callkit-group-video-name', {
-		'callkit-group-video-name-left': !showAvatar && data.isSelf
+		'callkit-group-video-name-left': !showAvatar && data.isSelf && memberCount <= 2
 	})
 	return (
 		<div className={cls} id={id}>
@@ -418,7 +418,7 @@ function GroupCall(props) {
 							className = 'callkit-group-video-2-target'
 						}
 					}
-					return <VideoCall key={item.value} text={userInfo[item.name]?.nickname || item.name} id={'video' + item.value} className={className} data={item} avatarUrl={userInfo[item.name]?.avatarUrl}></VideoCall>
+					return <VideoCall key={item.value} text={userInfo[item.name]?.nickname || item.name} id={'video' + item.value} className={className} data={item} avatarUrl={userInfo[item.name]?.avatarUrl} memberCount={state.joinedMembers.length}></VideoCall>
 				})
 			}
 

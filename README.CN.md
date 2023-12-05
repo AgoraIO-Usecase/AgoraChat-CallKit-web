@@ -176,6 +176,7 @@ function Call() {
 | startCall | 发起通话 |
 | answerCall | 接听通话 |
 | setUserIdMap | 设置声网 ID 映射, 参数形式 {[uid1]: 'custom name', [uid2]: 'custom name'} |
+| setUserInfo | 设置声网 ID 映射, 参数形式 {[uid]: {nickname: 'Bob', avatarUrl: 'https://example.com/avatar'}}
 
 回调：
 | 方法 | 说明 |

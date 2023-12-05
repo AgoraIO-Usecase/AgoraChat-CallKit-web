@@ -203,12 +203,13 @@ chat-callkit provides the following APIs:
 
 Methods:
 
-| Method                  | Description                                                                                                                          |
-| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| initWithConfig:delegate | Initializes chat-callkit.                                                                                                            |
-| startCall               | Starts a call.                                                                                                                       |
-| answerCall              | Answers the call.                                                                                                                    |
-| setUserIdMap            | Sets the mapping between Agora Chat user ID and Agora user ID (UID). The format is `{[uid1]: 'custom name', [uid2]: 'custom name'}`. |
+| Method                  | Description                                                                                                                                               |
+| ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| initWithConfig:delegate | Initializes chat-callkit.                                                                                                                                 |
+| startCall               | Starts a call.                                                                                                                                            |
+| answerCall              | Answers the call.                                                                                                                                         |
+| setUserIdMap            | Sets the mapping between Agora Chat user ID and Agora user ID (UID). The format is `{[uid1]: 'custom name', [uid2]: 'custom name'}`.                      |
+| setUserInfo             | Sets the mapping between Agora Chat user ID and Agora user ID (UID). The format is `{[uid]: {nickname: 'Bob', avatarUrl: 'https://example.com/avatar'}}`. |
 
 Callbacks:
 
