@@ -296,8 +296,8 @@ function SingleCall(props) {
 		callType = state.callDuration
 	}
 	let avatarToShow;
-	if (userInfo[targetUserName]?.avatarUrl) {
-		avatarToShow = <Avatar src={userInfo[targetUserName]?.avatarUrl || head} alt="name" style={{ zIndex: 9 }}></Avatar>
+	if (userInfo[targetUserId]?.avatarUrl) {
+		avatarToShow = <Avatar src={userInfo[targetUserId]?.avatarUrl || head} alt="name" style={{ zIndex: 9 }}></Avatar>
 	} else {
 		avatarToShow = typeof contactAvatar == 'object' ? contactAvatar : <Avatar src={contactAvatar || head} alt="name" style={{ zIndex: 9 }}></Avatar>
 	}
