@@ -11,6 +11,7 @@ import { CallkitContext } from '../index'
 function Layout({ onAddPerson, onStateChange, onInvite }) {
 	const CallkitProps = useContext(CallkitContext);
 	const confr = useSelector((state) => state.confr);
+	const state = useSelector((state) => state)
 	const size = useSelector((state) => state.windowSize);
 	const callStatus = useSelector((state) => state.callStatus);
 	const cls = classnames('callkit-layout-cantainer', {
@@ -28,7 +29,12 @@ function Layout({ onAddPerson, onStateChange, onInvite }) {
 	let audio = useRef(null)
 	useEffect(() => {
 		if (callStatus === CALLSTATUS.alerting) {
-			onInvite && onInvite(confr)
+			const confrCopy = { ...confr }
+			if (confr.type === 2 || confr.type === 3) {
+				confrCopy.groupId = state.groupId
+				confrCopy.groupName = state.groupName
+			}
+			onInvite && onInvite(confrCopy)
 			if (!CallkitProps.ringingSource) {
 				console.warn('no ringing source.')
 				return
