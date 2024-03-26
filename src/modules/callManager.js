@@ -74,8 +74,11 @@ class Manager {
 	startCall(options) {
 		const { getState, dispatch } = store
 		const state = getState()
-		let { callId, channel, chatType, callType, to, message, groupId, groupName, accessToken } = options;
+		let { callId, channel, chatType, callType, to, message, groupId, groupName, accessToken, agoraUid } = options;
 		this.accessToken = accessToken;
+		if (agoraUid) {
+			this.agoraUid = agoraUid;
+		}
 		if (state.confr.callId && state.callStatus > 0) {
 			channel = state.confr.channel
 			callId = state.confr.callId
@@ -176,7 +179,6 @@ class Manager {
 		} else if (state.uid2userId[username]) {
 			displayedName = state.uid2userId[username]
 		}
-
 		if (confr.type === 0 || confr.type === 3) {
 			await client.publish(config);
 			dispatch(updateJoinedMembers({ videoElm: null, name: displayedName, type: 'audio', value: uid, action: 'add', audio: true, video: false, isSelf: true }))
@@ -250,6 +252,7 @@ class Manager {
 		dispatch(setCallDuration('00:00'))
 		dispatch(changeWinSize('normal'))
 		dispatch(updateJoinedMembers([]))
+		dispatch(setUidToUserId({}))
 		dispatch(updateInvitedMembers([]))
 		dispatch(updateConfr({
 			to: '',

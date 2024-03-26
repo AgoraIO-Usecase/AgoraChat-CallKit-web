@@ -57,6 +57,7 @@
     width: 100%;
     height: 100%;
     position: absolute;
+    text-align: center;
 }
 .callkit-group-video-2-self .callkit-group-video-name{
     position: relative;
