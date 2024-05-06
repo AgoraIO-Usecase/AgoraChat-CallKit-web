@@ -66,7 +66,7 @@ function AudioCall(props) {
 	});
 	return (
 		<div className="callkit-group-audio-container">
-			<Avatar src={avatarUrl || head} alt="name" className={cls}>{text}</Avatar>
+			<Avatar src={avatarUrl || head} alt="avatar img" className={cls}>{text}</Avatar>
 			<Icon className={iconClass}></Icon>
 			<div className="callkit-group-audio-username">
 				{text}
@@ -92,11 +92,11 @@ function GroupCall(props) {
 				// 受邀请方按钮
 				return (
 					<>
-						<Button circle danger onClick={refuse}>
+						<Button circle danger onTouchStart={refuse} onClick={refuse}>
 							<Icon className="iconfont icon-phone_down callkit-main-button"></Icon>
 						</Button>
 
-						<Button circle right onClick={accept}>
+						<Button circle right onTouchStart={accept} onClick={accept}>
 							<Icon className="iconfont icon-phone callkit-main-button"></Icon>
 						</Button>
 					</>
@@ -104,13 +104,13 @@ function GroupCall(props) {
 			} else {
 				return (<>
 					{
-						isMute ? <Button className="callkit-singleCall-slash" circle onClick={swichMic}>
+						isMute ? <Button className="callkit-singleCall-slash" circle onTouchStart={swichMic} onClick={swichMic}>
 							<Icon className="iconfont icon-mic_slash callkit-main-button"></Icon>
-						</Button> : <Button circle onClick={swichMic}>
+						</Button> : <Button circle onTouchStart={swichMic} onClick={swichMic}>
 							<Icon className="iconfont icon-mic callkit-main-button"></Icon>
 						</Button>
 					}
-					<Button circle danger onClick={hangup}>
+					<Button circle danger onTouchStart={hangup} onClick={hangup}>
 						<Icon className="iconfont icon-phone_down callkit-main-button"></Icon>
 					</Button>
 				</>)
@@ -121,18 +121,18 @@ function GroupCall(props) {
 				return (
 					<>
 						{
-							isCloseCamera ? <Button className="callkit-singleCall-slash" circle onClick={swichCamera}>
+							isCloseCamera ? <Button className="callkit-singleCall-slash" circle onTouchStart={swichCamera} onClick={swichCamera}>
 								<Icon className="iconfont icon-video_slash callkit-main-button"></Icon>
-							</Button> : <Button circle onClick={swichCamera}>
+							</Button> : <Button circle onTouchStart={swichCamera} onClick={swichCamera}>
 								<Icon className="iconfont icon-video callkit-main-button"></Icon>
 							</Button>
 						}
 
-						<Button circle danger onClick={refuse}>
+						<Button circle danger onTouchStart={refuse} onClick={refuse}>
 							<Icon className="iconfont icon-phone_down callkit-main-button"></Icon>
 						</Button>
 
-						<Button circle right onClick={accept}>
+						<Button circle right onTouchStart={accept} onClick={accept}>
 							<Icon className="iconfont icon-phone callkit-main-button"></Icon>
 						</Button>
 					</>
@@ -140,22 +140,22 @@ function GroupCall(props) {
 			} else {
 				return <>
 					{
-						isCloseCamera ? <Button className="callkit-singleCall-slash" circle onClick={swichCamera}>
+						isCloseCamera ? <Button className="callkit-singleCall-slash" circle onTouchStart={swichCamera} onClick={swichCamera}>
 							<Icon className="iconfont icon-video_slash callkit-main-button"></Icon>
-						</Button> : <Button circle onClick={swichCamera}>
+						</Button> : <Button circle onTouchStart={swichCamera} onClick={swichCamera}>
 							<Icon className="iconfont icon-video callkit-main-button"></Icon>
 						</Button>
 					}
 
 					{
-						isMute ? <Button circle onClick={swichMic} className="callkit-singleCall-slash">
+						isMute ? <Button circle onTouchStart={swichMic} onClick={swichMic} className="callkit-singleCall-slash">
 							<Icon className="iconfont icon-mic_slash callkit-main-button"></Icon>
-						</Button> : <Button circle onClick={swichMic}>
+						</Button> : <Button circle onTouchStart={swichMic} onClick={swichMic}>
 							<Icon className="iconfont icon-mic callkit-main-button"></Icon>
 						</Button>
 					}
 
-					<Button circle danger onClick={hangup}>
+					<Button circle danger onTouchStart={hangup} onClick={hangup}>
 						<Icon className="iconfont icon-phone_down callkit-main-button"></Icon>
 					</Button>
 				</>
@@ -391,7 +391,7 @@ function GroupCall(props) {
 		'callkit-group-flex-start': state.joinedMembers.length > 6,
 		'callkit-group-container-video': state.confr.type === 2
 	})
-	const avatarToShow = typeof groupAvatar == 'object' ? groupAvatar : <Avatar src={groupAvatar || head} alt="name" style={{ zIndex: 9 }}></Avatar>
+	const avatarToShow = typeof groupAvatar == 'object' ? groupAvatar : <Avatar src={groupAvatar || head} alt="avatar img" style={{ zIndex: 9 }}></Avatar>
 	return (
 		<div className={containerCls}>
 

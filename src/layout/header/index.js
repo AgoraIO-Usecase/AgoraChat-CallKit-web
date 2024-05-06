@@ -39,17 +39,17 @@ function Header(props) {
 		<div className="callkit-header-cantainer">
 			<span className="callkit-header-name">{headTitle}</span>
 			<div className="callkit-header-contral">
-				{isGroup && <span onClick={onAddPerson}>
+				{isGroup && <span onTouchStart={onAddPerson} onClick={onAddPerson}>
 					<Icon className="iconfont icon-add_person icon-style"></Icon>
 				</span>}
 				{
-					currentSize === 'normal' ? <span onClick={onZoomWindow}>
+					currentSize === 'normal' ? <span onTouchStart={onZoomWindow} onClick={onZoomWindow}>
 						<Icon className="iconfont icon-a-4_arrows_separation icon-style"></Icon>
-					</span> : (currentSize === 'large' ? <span onClick={onZoomWindow}>
+					</span> : (currentSize === 'large' ? <span onTouchStart={onZoomWindow} onClick={onZoomWindow}>
 						<Icon className="iconfont icon-a-4_arrows_gathering icon-style"></Icon>
 					</span> : null)
 				}
-				<span onClick={handleClose}>
+				<span onTouchStart={handleClose} onClick={handleClose}>
 					<Icon className="iconfont icon-x icon-style"></Icon>
 				</span>
 			</div>

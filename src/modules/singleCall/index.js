@@ -29,6 +29,7 @@ function VideoCall({ targetInfo, myInfo }) {
 						? 'callkit-single-video-self'
 						: 'callkit-single-video-target'
 				}
+				onTouchStart={switchScreen}
 				onClick={switchScreen}
 			>
 				<div className='callkit-single-video-info' style={{ display: state.callStatus >= CALLSTATUS.confirmCallee && myInfo.isCloseCamera ? 'flex' : 'none' }}>
@@ -44,6 +45,7 @@ function VideoCall({ targetInfo, myInfo }) {
 						? 'callkit-single-video-self'
 						: 'callkit-single-video-target'
 				}
+				onTouchStart={switchScreen}
 				onClick={switchScreen}
 			>
 				<div className='callkit-single-video-info' style={{ display: state.callStatus >= CALLSTATUS.confirmCallee && targetInfo.isCloseCamera ? 'flex' : 'none' }}>
@@ -208,11 +210,11 @@ function SingleCall(props) {
 				// btn for callee
 				return (
 					<>
-						<Button circle danger onClick={refuse}>
+						<Button circle danger onTouchStart={refuse} onClick={refuse}>
 							<Icon className="iconfont icon-phone_down callkit-main-button"></Icon>
 						</Button>
 
-						<Button circle right onClick={accept}>
+						<Button circle right onTouchStart={accept} onClick={accept}>
 							<Icon className="iconfont icon-phone callkit-main-button"></Icon>
 						</Button>
 					</>
@@ -220,13 +222,13 @@ function SingleCall(props) {
 			} else {
 				return (<>
 					{
-						isMute ? <Button className="callkit-singleCall-slash" circle onClick={swichMic}>
+						isMute ? <Button className="callkit-singleCall-slash" circle onTouchStart={swichMic} onClick={swichMic}>
 							<Icon className="iconfont icon-mic_slash callkit-main-button"></Icon>
-						</Button> : <Button circle onClick={swichMic}>
+						</Button> : <Button circle onTouchStart={swichMic} onClick={swichMic}>
 							<Icon className="iconfont icon-mic callkit-main-button"></Icon>
 						</Button>
 					}
-					<Button circle danger onClick={hangup}>
+					<Button circle danger onTouchStart={hangup} onClick={hangup}>
 						<Icon className="iconfont icon-phone_down callkit-main-button"></Icon>
 					</Button>
 				</>)
@@ -237,18 +239,18 @@ function SingleCall(props) {
 				return (
 					<>
 						{
-							isCloseCamera ? <Button className="callkit-singleCall-slash" circle onClick={swichCamera}>
+							isCloseCamera ? <Button className="callkit-singleCall-slash" circle onTouchStart={swichCamera} onClick={swichCamera}>
 								<Icon className="iconfont icon-video_slash callkit-main-button"></Icon>
-							</Button> : <Button circle onClick={swichCamera}>
+							</Button> : <Button circle onTouchStart={swichCamera} onClick={swichCamera}>
 								<Icon className="iconfont icon-video callkit-main-button"></Icon>
 							</Button>
 						}
 
-						<Button circle danger onClick={refuse}>
+						<Button circle danger onTouchStart={refuse} onClick={refuse}>
 							<Icon className="iconfont icon-phone_down callkit-main-button"></Icon>
 						</Button>
 
-						<Button circle right onClick={accept}>
+						<Button circle right onTouchStart={accept} onClick={accept}>
 							<Icon className="iconfont icon-phone callkit-main-button"></Icon>
 						</Button>
 					</>
@@ -256,22 +258,22 @@ function SingleCall(props) {
 			} else {
 				return <>
 					{
-						isCloseCamera ? <Button className="callkit-singleCall-slash" circle onClick={swichCamera}>
+						isCloseCamera ? <Button className="callkit-singleCall-slash" circle onTouchStart={swichCamera} onClick={swichCamera}>
 							<Icon className="iconfont icon-video_slash callkit-main-button"></Icon>
-						</Button> : <Button circle onClick={swichCamera}>
+						</Button> : <Button circle onTouchStart={swichCamera} onClick={swichCamera}>
 							<Icon className="iconfont icon-video callkit-main-button"></Icon>
 						</Button>
 					}
 
 					{
-						isMute ? <Button circle onClick={swichMic} className="callkit-singleCall-slash">
+						isMute ? <Button circle onTouchStart={swichMic} onClick={swichMic} className="callkit-singleCall-slash">
 							<Icon className="iconfont icon-mic_slash callkit-main-button"></Icon>
-						</Button> : <Button circle onClick={swichMic}>
+						</Button> : <Button circle onTouchStart={swichMic} onClick={swichMic}>
 							<Icon className="iconfont icon-mic callkit-main-button"></Icon>
 						</Button>
 					}
 
-					<Button circle danger onClick={hangup}>
+					<Button circle danger onTouchStart={hangup} onClick={hangup}>
 						<Icon className="iconfont icon-phone_down callkit-main-button"></Icon>
 					</Button>
 				</>
@@ -297,11 +299,11 @@ function SingleCall(props) {
 	}
 	let avatarToShow;
 	if (userInfo[targetUserId]?.avatarUrl) {
-		avatarToShow = <Avatar src={userInfo[targetUserId]?.avatarUrl || head} alt="name" style={{ zIndex: 9 }}></Avatar>
+		avatarToShow = <Avatar src={userInfo[targetUserId]?.avatarUrl || head} alt="avatar img" style={{ zIndex: 9 }}></Avatar>
 	} else {
-		avatarToShow = typeof contactAvatar == 'object' ? contactAvatar : <Avatar src={contactAvatar || head} alt="name" style={{ zIndex: 9 }}></Avatar>
+		avatarToShow = typeof contactAvatar == 'object' ? contactAvatar : <Avatar src={contactAvatar || head} alt="avatar img" style={{ zIndex: 9 }}></Avatar>
 	}
-	const myAvatar = <Avatar src={userInfo[WebIM.conn.user]?.avatarUrl || head} alt="name" style={{ zIndex: 9 }}></Avatar>
+	const myAvatar = <Avatar src={userInfo[WebIM.conn.user]?.avatarUrl || head} alt="avatar img" style={{ zIndex: 9 }}></Avatar>
 	return (
 		<div style={style} className="callkit-singleCall-container">
 			{showAvatar && <>
