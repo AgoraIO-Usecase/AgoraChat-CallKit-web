@@ -59,7 +59,7 @@ function Layout({ onAddPerson, onStateChange, onInvite }) {
 	}, [callStatus])
 
 	return (
-		callStatus > CALLSTATUS.idle ?
+		callStatus > CALLSTATUS.idle && callStatus != CALLSTATUS.alerting ?
 			<>
 				<Draggable position={position}>
 					<div className={cls}>

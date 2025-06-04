@@ -373,9 +373,9 @@ export const addListener = () => {
 
                             if (![2, 3].includes(callVideo.confr.type)) { // 1v1 hang up，multi don't hang up
                                 confirmCallee(msg.from, deviceId, msgInfo.result)
+                                dispatch(setCallStatus(CALLSTATUS.idle))
                                 let reason = msgInfo.result == 'busy' ? 'busy' : 'refused'
                                 callManager.hangup(reason)
-                                dispatch(setCallStatus(CALLSTATUS.idle))
                             } else {
                                 confirmCallee(msg.from, deviceId, 'refuse')
                             }

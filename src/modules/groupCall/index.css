@@ -123,6 +123,14 @@
     bottom: 5px;
     z-index: 9;
 }
+.callkit-group-video-icon.callkit-group-video-icon-large{
+    bottom: 40px;
+    right: 20px;
+}
+.callkit-group-audio-icon2.callkit-group-audio-icon2-large{
+    bottom: 40px;
+    right: 40px;
+}
 .callkit-group-audio-icon2{
     color: #fff;
     position: absolute;
@@ -188,6 +196,7 @@
     line-height: 24px;
     border: 4px solid;
     right: 7px;
+    text-align: center;
 }
 
 .callkit-group-avatar{

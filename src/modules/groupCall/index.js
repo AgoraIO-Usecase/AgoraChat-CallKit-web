@@ -26,18 +26,20 @@ function VideoCall(props) {
 		iconfont: true,
 		'icon-mic_slash': true,
 		'callkit-group-audio-icon2': true,
+		'callkit-group-audio-icon2-large': !data.isSelf && memberCount == 2 || memberCount == 1,
 		'display-none': data.audio,
 	});
 	const videoIconClass = classnames({
 		iconfont: true,
 		'icon-video_slash': true,
 		'callkit-group-video-icon': true,
+		'callkit-group-video-icon-large': !data.isSelf && memberCount == 2 || memberCount == 1,
 		'display-none': data.video,
 	});
 	const showAvatar = !data.video
 
 	const nameClass = classnames('callkit-group-video-name', {
-		'callkit-group-video-name-left': !showAvatar && data.isSelf && memberCount <= 2
+		'callkit-group-video-name-left': !showAvatar && !data.isSelf && memberCount == 2 || memberCount == 1
 	})
 	return (
 		<div className={cls} id={id}>
@@ -361,7 +363,18 @@ function GroupCall(props) {
 			return console.warn('not joined the call yet')
 		}
 		setMute((isMute) => !isMute)
+
 		WebIM.rtc.localAudioTrack.setEnabled(isMute)
+
+		const joinedMembersCp = [...state.joinedMembers]
+		joinedMembersCp.forEach((item, index) => {
+			if (item.value == callManager.agoraUid) {
+				let user = Object.assign({}, item)
+				user.audio = isMute
+				joinedMembersCp[index] = user
+			}
+		})
+		dispatch(updateJoinedMembers(joinedMembersCp))
 	}
 
 	const swichCamera = () => {
@@ -411,11 +424,16 @@ function GroupCall(props) {
 			{
 				state.confr.type === 2 && state.joinedMembers.map((item) => {
 					let className = ''
-					if (state.joinedMembers.length <= 2) {
+					if (state.joinedMembers.length === 1) {
 						if (item.isSelf) {
 							className = 'callkit-group-video-2-self'
-						} else {
+						}
+					}
+					if (state.joinedMembers.length === 2) {
+						if (item.isSelf) {
 							className = 'callkit-group-video-2-target'
+						} else {
+							className = 'callkit-group-video-2-self'
 						}
 					}
 					return <VideoCall key={item.value} text={userInfo[item.name]?.nickname || item.name} id={'video' + item.value} className={className} data={item} avatarUrl={userInfo[item.name]?.avatarUrl} memberCount={state.joinedMembers.length}></VideoCall>

@@ -20,6 +20,13 @@ function VideoCall({ targetInfo, myInfo }) {
 			return !selfScreenFull;
 		});
 	};
+
+	useEffect(() => {
+		if (state.callStatus >= CALLSTATUS.confirmCallee) {
+			// 接通之前自己是大屏幕， 接通之后，自己的图像换成小屏幕，对方的图像换成大屏幕
+			switchScreen()
+		}
+	}, [state.callStatus])
 	return (
 		<div className="callkit-single-videobox">
 			<div
