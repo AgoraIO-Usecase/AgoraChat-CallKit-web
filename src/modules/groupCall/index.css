@@ -51,6 +51,7 @@
     border-radius: 8px;
     overflow: hidden;
     position: relative;
+    text-align: center;
 }
 
 .callkit-group-video-2-self{
